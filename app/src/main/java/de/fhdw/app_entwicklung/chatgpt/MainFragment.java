@@ -12,15 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Locale;
+
 import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 
 public class MainFragment extends Fragment {
 
+    private static final String CHAT_SEPARATOR = "\n\n";
+
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
+                getTextView().append(query);
 
+                MainActivity.backgroundExecutorService.execute(() -> {
+                    ChatGpt chatGpt = new ChatGpt("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");
+                    String answer = chatGpt.getChatCompletion(query);
+
+                    getTextView().append(CHAT_SEPARATOR);
+                    getTextView().append(answer);
+                });
             });
 
     public MainFragment() {
@@ -36,12 +48,8 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getAskButton().setOnClickListener(v -> MainActivity.backgroundExecutorService.execute(() ->
-        {
-            ChatGpt chatGpt = new ChatGpt("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");
-            String answer = chatGpt.getChatCompletion("What's the answer to the universe and everything?");
-            getTextView().setText(answer);
-        }));
+        getAskButton().setOnClickListener(v ->
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
     }
 
     private TextView getTextView() {
