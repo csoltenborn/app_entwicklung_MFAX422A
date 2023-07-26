@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Locale;
 
+import de.fhdw.app_entwicklung.chatgpt.model.Author;
+import de.fhdw.app_entwicklung.chatgpt.model.Chat;
+import de.fhdw.app_entwicklung.chatgpt.model.Message;
 import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
@@ -24,10 +27,12 @@ public class MainFragment extends Fragment {
 
     private PrefsFacade prefs;
     private TextToSpeechTool textToSpeech;
+    private Chat chat;
 
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
+                chat.addMessage(new Message(Author.User, query));
                 getTextView().append(query);
 
                 MainActivity.backgroundExecutorService.execute(() -> {
@@ -35,6 +40,7 @@ public class MainFragment extends Fragment {
                     ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(query);
 
+                    chat.addMessage(new Message(Author.Assistant, answer));
                     getTextView().append(CHAT_SEPARATOR);
                     getTextView().append(answer);
                     textToSpeech.speak(answer);
@@ -56,6 +62,7 @@ public class MainFragment extends Fragment {
 
         prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
+        chat = new Chat();
 
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
