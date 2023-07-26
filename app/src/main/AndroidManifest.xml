@@ -15,6 +15,10 @@
         android:theme="@style/Theme.ChatGpt"
         tools:targetApi="31">
         <activity
+            android:name=".PrefsActivity"
+            android:exported="false"
+            android:label="Settings" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

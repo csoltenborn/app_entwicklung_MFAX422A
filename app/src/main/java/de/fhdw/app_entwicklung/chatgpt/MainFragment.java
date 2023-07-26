@@ -22,6 +22,7 @@ public class MainFragment extends Fragment {
 
     private static final String CHAT_SEPARATOR = "\n\n";
 
+    private PrefsFacade prefs;
     private TextToSpeechTool textToSpeech;
 
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
@@ -30,7 +31,8 @@ public class MainFragment extends Fragment {
                 getTextView().append(query);
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    ChatGpt chatGpt = new ChatGpt("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");
+                    String apiToken = prefs.getApiToken();
+                    ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(query);
 
                     getTextView().append(CHAT_SEPARATOR);
@@ -52,6 +54,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
 
         getAskButton().setOnClickListener(v ->
