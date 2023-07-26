@@ -16,10 +16,13 @@ import java.util.Locale;
 
 import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
+import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
 public class MainFragment extends Fragment {
 
     private static final String CHAT_SEPARATOR = "\n\n";
+
+    private TextToSpeechTool textToSpeech;
 
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
@@ -32,6 +35,7 @@ public class MainFragment extends Fragment {
 
                     getTextView().append(CHAT_SEPARATOR);
                     getTextView().append(answer);
+                    textToSpeech.speak(answer);
                 });
             });
 
@@ -48,8 +52,25 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
+
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        textToSpeech.stop();
+    }
+
+    @Override
+    public void onDestroy() {
+        textToSpeech.destroy();
+        textToSpeech = null;
+
+        super.onDestroy();
     }
 
     private TextView getTextView() {
