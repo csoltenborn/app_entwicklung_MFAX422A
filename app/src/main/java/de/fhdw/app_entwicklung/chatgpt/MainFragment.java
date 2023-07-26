@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
-                    String answer = chatGpt.getChatCompletion(query);
+                    String answer = chatGpt.getChatCompletion(chat);
 
                     chat.addMessage(new Message(Author.Assistant, answer));
                     getTextView().append(CHAT_SEPARATOR);
