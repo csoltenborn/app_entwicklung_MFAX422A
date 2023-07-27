@@ -10,17 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import de.fhdw.app_entwicklung.chatgpt.databinding.FragmentChatsBinding;
-import de.fhdw.app_entwicklung.chatgpt.placeholder.PlaceholderContent.PlaceholderItem;
+import de.fhdw.app_entwicklung.chatgpt.model.Chat;
+import de.fhdw.app_entwicklung.chatgpt.model.Message;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Chat> mValues;
 
-    public ChatRecyclerViewAdapter(List<PlaceholderItem> items) {
+    public ChatRecyclerViewAdapter(List<Chat> items) {
         mValues = items;
     }
 
@@ -33,10 +30,17 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        Chat chat = mValues.get(position);
+        List<Message> messages = chat.getMessages();
+        String info = "<no question asked>";
+        if (messages.size() > 1) {
+            info = messages.get(1).message;
+        }
+
+        holder.mItem = chat;
+        holder.mIdView.setText(Long.toString(chat.id));
+        holder.mContentView.setText(info);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
         public final TextView mContentView;
-        public PlaceholderItem mItem;
+        public Chat mItem;
 
         public ViewHolder(FragmentChatsBinding binding) {
             super(binding.getRoot());

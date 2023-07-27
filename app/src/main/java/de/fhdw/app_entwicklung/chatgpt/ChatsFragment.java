@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.fhdw.app_entwicklung.chatgpt.placeholder.PlaceholderContent;
+import java.util.List;
+
+import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 
 /**
  * A fragment representing a list of Items.
@@ -64,7 +66,10 @@ public class ChatsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ChatRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            MainActivity.backgroundExecutorService.execute(() -> {
+                List<Chat> allChats = MainFragment.getDatabase().chatDao().getAllChatsCompletely();
+                recyclerView.setAdapter(new ChatRecyclerViewAdapter(allChats));
+            });
         }
         return view;
     }
