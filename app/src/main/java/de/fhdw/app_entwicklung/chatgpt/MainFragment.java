@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,7 +19,8 @@ import java.util.Locale;
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
-import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
+import de.fhdw.app_entwicklung.chatgpt.openai.IChatGpt;
+import de.fhdw.app_entwicklung.chatgpt.openai.MockChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
@@ -40,17 +42,22 @@ public class MainFragment extends Fragment {
                     getTextView().append(CHAT_SEPARATOR);
                 }
                 getTextView().append(toString(userMessage));
+                scrollToEnd();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
-                    ChatGpt chatGpt = new ChatGpt(apiToken);
+                    IChatGpt chatGpt = new MockChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
                     chat.addMessage(answerMessage);
-                    getTextView().append(CHAT_SEPARATOR);
-                    getTextView().append(toString(answerMessage));
-                    textToSpeech.speak(answer);
+
+                    MainActivity.uiThreadHandler.post(() -> {
+                        getTextView().append(CHAT_SEPARATOR);
+                        getTextView().append(toString(answerMessage));
+                        scrollToEnd();
+                        textToSpeech.speak(answer);
+                    });
                 });
             });
 
@@ -114,6 +121,11 @@ public class MainFragment extends Fragment {
                 getTextView().append(toString(messages.get(i)));
             }
         }
+        scrollToEnd();
+    }
+
+    private void scrollToEnd() {
+        getScrollView().postDelayed(() -> getScrollView().fullScroll(ScrollView.FOCUS_DOWN), 300);
     }
 
     private CharSequence toString(Message message) {
@@ -133,6 +145,11 @@ public class MainFragment extends Fragment {
     private Button getResetButton() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.button_reset);
+    }
+
+    private ScrollView getScrollView() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.scrollview);
     }
 
 }
