@@ -35,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             return true;
         }
+        if (item.getItemId() == R.id.menu_item_chats) {
+            Intent i = new Intent(this, ChatsActivity.class);
+            startActivity(i);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
