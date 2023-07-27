@@ -3,18 +3,28 @@ package de.fhdw.app_entwicklung.chatgpt.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Entity(tableName = "chats")
 public class Chat implements Parcelable {
 
+    @PrimaryKey(autoGenerate = true)
+    public long id;
+
+    @Ignore
     private final List<Message> messages = new ArrayList<>();
 
     public Chat() {
     }
 
     protected Chat(Parcel in) {
+        id = in.readLong();
         in.readList(messages, Message.class.getClassLoader());
     }
 
@@ -28,6 +38,7 @@ public class Chat implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeList(messages);
     }
 

@@ -12,10 +12,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.fhdw.app_entwicklung.chatgpt.database.AppDatabase;
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
@@ -28,6 +30,11 @@ public class MainFragment extends Fragment {
 
     private static final String EXTRA_DATA_CHAT = "EXTRA_DATA_CHAT";
     private static final String CHAT_SEPARATOR = "\n\n";
+
+    private static AppDatabase DATABASE = null;
+    public static AppDatabase getDatabase() {
+        return DATABASE;
+    }
 
     private PrefsFacade prefs;
     private TextToSpeechTool textToSpeech;
@@ -50,6 +57,8 @@ public class MainFragment extends Fragment {
 
                     Message answerMessage = new Message(Author.Assistant, answer);
                     chat.addMessage(answerMessage);
+
+                    getDatabase().chatDao().insertCompletely(chat);
 
                     MainActivity.uiThreadHandler.post(() -> {
                         getTextView().append(CHAT_SEPARATOR);
@@ -74,6 +83,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (DATABASE == null) {
+            //noinspection ConstantConditions
+            DATABASE = Room.databaseBuilder(getActivity().getApplicationContext(), AppDatabase.class, "chat_db").build();
+        }
 
         prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
