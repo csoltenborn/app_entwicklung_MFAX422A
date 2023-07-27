@@ -15,10 +15,16 @@ import de.fhdw.app_entwicklung.chatgpt.model.Message;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Chat> mValues;
+    public interface OnChatClickListener {
+        void onChatClick(Chat chat);
+    }
 
-    public ChatRecyclerViewAdapter(List<Chat> items) {
+    private final List<Chat> mValues;
+    private final OnChatClickListener listener;
+
+    public ChatRecyclerViewAdapter(List<Chat> items, OnChatClickListener listener) {
         mValues = items;
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,6 +47,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         holder.mItem = chat;
         holder.mIdView.setText(Long.toString(chat.id));
         holder.mContentView.setText(info);
+        holder.itemView.setOnClickListener(v -> listener.onChatClick(chat));
     }
 
     @Override
