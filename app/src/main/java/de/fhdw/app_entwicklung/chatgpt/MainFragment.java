@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
@@ -45,8 +45,7 @@ public class MainFragment extends Fragment {
                 scrollToEnd();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    String apiToken = prefs.getApiToken();
-                    IChatGpt chatGpt = new MockChatGpt(apiToken);
+                    IChatGpt chatGpt = new MockChatGpt(prefs.getApiToken(), prefs.getModel());
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
@@ -56,7 +55,9 @@ public class MainFragment extends Fragment {
                         getTextView().append(CHAT_SEPARATOR);
                         getTextView().append(toString(answerMessage));
                         scrollToEnd();
-                        textToSpeech.speak(answer);
+                        if (prefs.speakOutLoud()) {
+                            textToSpeech.speak(answer);
+                        }
                     });
                 });
             });
@@ -75,16 +76,18 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         prefs = new PrefsFacade(requireContext());
-        textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
-        chat = new Chat();
+        textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
+
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
+        } else {
+            chat = createNewChat();
         }
 
         getAskButton().setOnClickListener(v ->
-                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
-            chat = new Chat();
+            chat = createNewChat();
             updateTextView();
         });
         updateTextView();
@@ -113,7 +116,9 @@ public class MainFragment extends Fragment {
 
     private void updateTextView() {
         getTextView().setText("");
-        List<Message> messages = chat.getMessages();
+        List<Message> messages = chat.getMessages().stream()
+                .filter(message -> message.author != Author.System)
+                .collect(Collectors.toList());
         if (!messages.isEmpty()) {
             getTextView().append(toString(messages.get(0)));
             for (int i = 1; i < messages.size(); i++) {
@@ -126,6 +131,12 @@ public class MainFragment extends Fragment {
 
     private void scrollToEnd() {
         getScrollView().postDelayed(() -> getScrollView().fullScroll(ScrollView.FOCUS_DOWN), 300);
+    }
+
+    private Chat createNewChat() {
+        Chat chat = new Chat();
+        chat.addMessage(new Message(Author.System, prefs.getSpeakingStyle()));
+        return chat;
     }
 
     private CharSequence toString(Message message) {

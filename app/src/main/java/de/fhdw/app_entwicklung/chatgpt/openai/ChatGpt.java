@@ -20,9 +20,11 @@ import de.fhdw.app_entwicklung.chatgpt.model.Message;
 public class ChatGpt implements IChatGpt {
 
     private final String apiToken;
+    private final String model;
 
-    public ChatGpt(String apiToken) {
+    public ChatGpt(String apiToken, String model) {
         this.apiToken = apiToken;
+        this.model = model;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ChatGpt implements IChatGpt {
                     .map(this::toChatMessage)
                     .collect(Collectors.toList());
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                    .model("gpt-3.5-turbo")
+                    .model(model)
                     .messages(messages)
                     .n(1)
                     .maxTokens(2048)
