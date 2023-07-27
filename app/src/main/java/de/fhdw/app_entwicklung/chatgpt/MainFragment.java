@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.List;
 import java.util.Locale;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
@@ -23,6 +24,7 @@ import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
 public class MainFragment extends Fragment {
 
+    private static final String EXTRA_DATA_CHAT = "EXTRA_DATA_CHAT";
     private static final String CHAT_SEPARATOR = "\n\n";
 
     private PrefsFacade prefs;
@@ -32,17 +34,22 @@ public class MainFragment extends Fragment {
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
-                chat.addMessage(new Message(Author.User, query));
-                getTextView().append(query);
+                Message userMessage = new Message(Author.User, query);
+                chat.addMessage(userMessage);
+                if (chat.getMessages().size() > 1) {
+                    getTextView().append(CHAT_SEPARATOR);
+                }
+                getTextView().append(toString(userMessage));
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
-                    chat.addMessage(new Message(Author.Assistant, answer));
+                    Message answerMessage = new Message(Author.Assistant, answer);
+                    chat.addMessage(answerMessage);
                     getTextView().append(CHAT_SEPARATOR);
-                    getTextView().append(answer);
+                    getTextView().append(toString(answerMessage));
                     textToSpeech.speak(answer);
                 });
             });
@@ -63,9 +70,13 @@ public class MainFragment extends Fragment {
         prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
         chat = new Chat();
+        if (savedInstanceState != null) {
+            chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
+        }
 
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+        updateTextView();
     }
 
     @Override
@@ -76,11 +87,33 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(EXTRA_DATA_CHAT, chat);
+    }
+
+    @Override
     public void onDestroy() {
         textToSpeech.destroy();
         textToSpeech = null;
 
         super.onDestroy();
+    }
+
+    private void updateTextView() {
+        getTextView().setText("");
+        List<Message> messages = chat.getMessages();
+        if (!messages.isEmpty()) {
+            getTextView().append(toString(messages.get(0)));
+            for (int i = 1; i < messages.size(); i++) {
+                getTextView().append(CHAT_SEPARATOR);
+                getTextView().append(toString(messages.get(i)));
+            }
+        }
+    }
+
+    private CharSequence toString(Message message) {
+        return message.message;
     }
 
     private TextView getTextView() {
