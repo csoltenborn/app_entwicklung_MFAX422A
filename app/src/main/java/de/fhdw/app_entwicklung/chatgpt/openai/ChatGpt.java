@@ -17,7 +17,7 @@ import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
 
-public class ChatGpt {
+public class ChatGpt implements IChatGpt {
 
     private final String apiToken;
 
@@ -25,6 +25,7 @@ public class ChatGpt {
         this.apiToken = apiToken;
     }
 
+    @Override
     public String getChatCompletion(@NonNull Chat chat) {
         OpenAiService service = new OpenAiService(apiToken, Duration.ofSeconds(90));
 
