@@ -76,6 +76,10 @@ public class MainFragment extends Fragment {
 
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+        getResetButton().setOnClickListener(v -> {
+            chat = new Chat();
+            updateTextView();
+        });
         updateTextView();
     }
 
@@ -124,6 +128,11 @@ public class MainFragment extends Fragment {
     private Button getAskButton() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.button_ask);
+    }
+
+    private Button getResetButton() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.button_reset);
     }
 
 }
