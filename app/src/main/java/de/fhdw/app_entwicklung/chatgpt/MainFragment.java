@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class MainFragment extends Fragment {
                 getTextView().append(toString(userMessage));
                 scrollToEnd();
 
+                getProgressBar().setVisibility(View.VISIBLE);
                 MainActivity.backgroundExecutorService.execute(() -> {
                     IChatGpt chatGpt = new MockChatGpt(prefs.getApiToken(), prefs.getModel());
                     String answer = chatGpt.getChatCompletion(chat);
@@ -61,6 +63,7 @@ public class MainFragment extends Fragment {
                     getDatabase().chatDao().insertCompletely(chat);
 
                     MainActivity.uiThreadHandler.post(() -> {
+                        getProgressBar().setVisibility(View.GONE);
                         getTextView().append(CHAT_SEPARATOR);
                         getTextView().append(toString(answerMessage));
                         scrollToEnd();
@@ -161,7 +164,7 @@ public class MainFragment extends Fragment {
     }
 
     private CharSequence toString(Message message) {
-        return message.message;
+        return message.message != null ? message.message : "";
     }
 
     private TextView getTextView() {
@@ -182,6 +185,11 @@ public class MainFragment extends Fragment {
     private ScrollView getScrollView() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.scrollview);
+    }
+
+    private ProgressBar getProgressBar() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.progressBar);
     }
 
 }
