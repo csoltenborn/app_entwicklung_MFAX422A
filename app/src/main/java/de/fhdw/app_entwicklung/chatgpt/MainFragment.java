@@ -130,6 +130,11 @@ public class MainFragment extends Fragment {
         scrollToEnd();
     }
 
+    @NonNull
+    public CharSequence getChatText() {
+        return getTextView().getText();
+    }
+
     private void updateTextView() {
         getTextView().setText("");
         List<Message> messages = chat.getMessages().stream()

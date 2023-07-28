@@ -62,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
             launchActivity.launch(new Intent(this, ChatsActivity.class));
             return true;
         }
+        if (item.getItemId() == R.id.menu_item_share) {
+            MainFragment fragment = getMainFragment();
+            if (fragment != null) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getMainFragment().getChatText().toString());
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+                return true;
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -12,4 +12,5 @@
     <string name="api_token">API token</string>
     <string name="openai_model">OpenAI model</string>
     <string name="chats">Chats</string>
+    <string name="share">Share</string>
 </resources>
