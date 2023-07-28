@@ -93,18 +93,14 @@ public class MainFragment extends Fragment {
         textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
 
         if (savedInstanceState != null) {
-            chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
+            setChat(savedInstanceState.getParcelable(EXTRA_DATA_CHAT));
         } else {
-            chat = createNewChat();
+            setChat(createNewChat());
         }
 
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
-        getResetButton().setOnClickListener(v -> {
-            chat = createNewChat();
-            updateTextView();
-        });
-        updateTextView();
+        getResetButton().setOnClickListener(v -> setChat(createNewChat()));
     }
 
     @Override
@@ -126,6 +122,12 @@ public class MainFragment extends Fragment {
         textToSpeech = null;
 
         super.onDestroy();
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        updateTextView();
+        scrollToEnd();
     }
 
     private void updateTextView() {

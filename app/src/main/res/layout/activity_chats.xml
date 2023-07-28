@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ChatsActivity">
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_main"
+        android:id="@+id/fragment_container_chats"
         android:name="de.fhdw.app_entwicklung.chatgpt.ChatsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
