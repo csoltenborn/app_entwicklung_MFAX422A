@@ -44,34 +44,10 @@ public class MainFragment extends Fragment {
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
-                Message userMessage = new Message(Author.User, query);
-                chat.addMessage(userMessage);
-                if (chat.getMessages().size() > 1) {
-                    getTextView().append(CHAT_SEPARATOR);
+                if (query == null || query.trim().isEmpty()) {
+                    return;
                 }
-                getTextView().append(toString(userMessage));
-                scrollToEnd();
-
-                getProgressBar().setVisibility(View.VISIBLE);
-                MainActivity.backgroundExecutorService.execute(() -> {
-                    IChatGpt chatGpt = new MockChatGpt(prefs.getApiToken(), prefs.getModel());
-                    String answer = chatGpt.getChatCompletion(chat);
-
-                    Message answerMessage = new Message(Author.Assistant, answer);
-                    chat.addMessage(answerMessage);
-
-                    getDatabase().chatDao().insertCompletely(chat);
-
-                    MainActivity.uiThreadHandler.post(() -> {
-                        getProgressBar().setVisibility(View.GONE);
-                        getTextView().append(CHAT_SEPARATOR);
-                        getTextView().append(toString(answerMessage));
-                        scrollToEnd();
-                        if (prefs.speakOutLoud()) {
-                            textToSpeech.speak(answer);
-                        }
-                    });
-                });
+                askChatGtp(query);
             });
 
     public MainFragment() {
@@ -98,12 +74,12 @@ public class MainFragment extends Fragment {
         if (savedInstanceState != null) {
             setChat(savedInstanceState.getParcelable(EXTRA_DATA_CHAT));
         } else {
-            setChat(createNewChat());
+            setChat(createChat());
         }
 
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
-        getResetButton().setOnClickListener(v -> setChat(createNewChat()));
+        getResetButton().setOnClickListener(v -> setChat(createChat()));
     }
 
     @Override
@@ -131,6 +107,7 @@ public class MainFragment extends Fragment {
         this.chat = chat;
         updateTextView();
         scrollToEnd();
+        updateButtonStates();
     }
 
     @NonNull
@@ -138,10 +115,50 @@ public class MainFragment extends Fragment {
         return getTextView().getText();
     }
 
+    private void askChatGtp(@NonNull String query) {
+        disableButtons();
+        getProgressBar().setVisibility(View.VISIBLE);
+
+        Message userMessage = new Message(Author.User, query);
+        chat.addMessage(userMessage);
+        if (chat.getMessages().size() > 2) {
+            getTextView().append(CHAT_SEPARATOR);
+        }
+        getTextView().append(toString(userMessage));
+        scrollToEnd();
+
+        MainActivity.backgroundExecutorService.execute(() -> {
+            IChatGpt chatGpt = createChatGtp();
+            String answer = chatGpt.getChatCompletion(chat);
+
+            Message answerMessage = new Message(Author.Assistant, answer);
+            chat.addMessage(answerMessage);
+
+            getDatabase().chatDao().insertCompletely(chat);
+
+            MainActivity.uiThreadHandler.post(() -> {
+                getTextView().append(CHAT_SEPARATOR);
+                getTextView().append(toString(answerMessage));
+                scrollToEnd();
+                getProgressBar().setVisibility(View.GONE);
+                updateButtonStates();
+                if (prefs.speakOutLoud()) {
+                    textToSpeech.speak(answer);
+                }
+            });
+        });
+    }
+
+    @NonNull
+    protected IChatGpt createChatGtp() {
+        return new MockChatGpt();
+        //return new ChatGpt(prefs.getApiToken(), prefs.getModel());
+    }
+
     private void updateTextView() {
         getTextView().setText("");
         List<Message> messages = chat.getMessages().stream()
-                .filter(message -> message.author != Author.System)
+                .filter(message -> message.author == Author.User || message.author == Author.Assistant)
                 .collect(Collectors.toList());
         if (!messages.isEmpty()) {
             getTextView().append(toString(messages.get(0)));
@@ -152,12 +169,22 @@ public class MainFragment extends Fragment {
         }
         scrollToEnd();
     }
+    
+    private void updateButtonStates() {
+        getAskButton().setEnabled(true);
+        getResetButton().setEnabled(getTextView().getText().length() > 0);
+    }
+    
+    private void disableButtons() {
+        getAskButton().setEnabled(false);
+        getResetButton().setEnabled(false);
+    }
 
     private void scrollToEnd() {
         getScrollView().postDelayed(() -> getScrollView().fullScroll(ScrollView.FOCUS_DOWN), 300);
     }
 
-    private Chat createNewChat() {
+    private Chat createChat() {
         Chat chat = new Chat();
         chat.addMessage(new Message(Author.System, prefs.getSpeakingStyle()));
         return chat;

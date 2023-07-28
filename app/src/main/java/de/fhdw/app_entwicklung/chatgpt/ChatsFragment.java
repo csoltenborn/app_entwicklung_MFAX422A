@@ -69,7 +69,8 @@ public class ChatsFragment extends Fragment {
             }
             MainActivity.backgroundExecutorService.execute(() -> {
                 List<Chat> allChats = MainFragment.getDatabase().chatDao().getAllChatsCompletely();
-                recyclerView.setAdapter(new ChatRecyclerViewAdapter(
+                MainActivity.uiThreadHandler.post(() ->
+                    recyclerView.setAdapter(new ChatRecyclerViewAdapter(
                         allChats,
                         chat -> {
                             if (chat != null) {
@@ -81,7 +82,7 @@ public class ChatsFragment extends Fragment {
                                     activity.finish();
                                 }
                             }
-                        }));
+                        })));
             });
         }
         return view;

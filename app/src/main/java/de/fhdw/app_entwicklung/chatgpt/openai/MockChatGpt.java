@@ -9,8 +9,7 @@ import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 public class MockChatGpt implements IChatGpt {
 
     /** @noinspection unused*/
-    public MockChatGpt(String apiToken, String model) {
-        // ignore...
+    public MockChatGpt() {
     }
 
     @Override
