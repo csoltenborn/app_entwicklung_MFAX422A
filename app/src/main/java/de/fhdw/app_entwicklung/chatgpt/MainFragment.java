@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -36,10 +37,7 @@ public class MainFragment extends Fragment {
             query -> {
                 Message userMessage = new Message(Author.User, query);
                 chat.addMessage(userMessage);
-                if (chat.getMessages().size() > 1) {
-                    getTextView().append(CHAT_SEPARATOR);
-                }
-                getTextView().append(toString(userMessage));
+                updateTextView();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
@@ -48,8 +46,8 @@ public class MainFragment extends Fragment {
 
                     Message answerMessage = new Message(Author.Assistant, answer);
                     chat.addMessage(answerMessage);
-                    getTextView().append(CHAT_SEPARATOR);
-                    getTextView().append(toString(answerMessage));
+                    updateTextView();
+
                     textToSpeech.speak(answer);
                 });
             });
@@ -105,21 +103,34 @@ public class MainFragment extends Fragment {
     }
 
     private void updateTextView() {
-        getTextView().setText("");
-        List<Message> messages = chat.getMessages();
-        if (!messages.isEmpty()) {
-            getTextView().append(toString(messages.get(0)));
-            for (int i = 1; i < messages.size(); i++) {
-                getTextView().append(CHAT_SEPARATOR);
-                getTextView().append(toString(messages.get(i)));
+        MainActivity.uiThreadHandler.post(() -> {
+            getTextView().setText("");
+            List<Message> messages = chat.getMessages();
+            if (!messages.isEmpty()) {
+                getTextView().append(toString(messages.get(0)));
+                for (int i = 1; i < messages.size(); i++) {
+                    getTextView().append(CHAT_SEPARATOR);
+                    getTextView().append(toString(messages.get(i)));
+                }
+
+                scrollToEnd();
             }
-        }
+        });
+    }
+
+    private void scrollToEnd() {
+        getScrollView().postDelayed(() -> 
+            getScrollView().fullScroll(ScrollView.FOCUS_DOWN), 300);
     }
 
     private CharSequence toString(Message message) {
         return message.message;
     }
 
+    private ScrollView getScrollView() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.scrollView);
+    }
     private TextView getTextView() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.textView);
