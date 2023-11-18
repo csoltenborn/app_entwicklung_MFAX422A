@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
+import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.openai.IChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.openai.MockChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
@@ -45,7 +46,7 @@ public class MainFragment extends Fragment {
                 scrollToEnd();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    IChatGpt chatGpt = new MockChatGpt(prefs.getApiToken(), prefs.getModel());
+                    ChatGpt chatGpt = new ChatGpt(prefs.getApiToken(), prefs.getModel());
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
