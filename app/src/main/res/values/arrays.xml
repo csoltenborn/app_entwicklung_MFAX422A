@@ -1,2 +1,13 @@
 <resources>
+    <string-array name="text_length">
+        <item>@string/textShort</item>
+        <item>@string/textNormal</item>
+        <item>@string/textLong</item>
+    </string-array>
+
+    <string-array name="text_length_values">
+        <item>kurz</item>
+        <item>mittelmäßig lang</item>
+        <item>sehr lang</item>
+    </string-array>
 </resources>
