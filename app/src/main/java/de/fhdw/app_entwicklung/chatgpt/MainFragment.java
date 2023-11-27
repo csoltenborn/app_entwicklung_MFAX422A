@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -36,27 +37,28 @@ public class MainFragment extends Fragment {
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
+                updateProgressBar(0);
                 Message userMessage = new Message(Author.User, query);
                 chat.addMessage(userMessage);
+
+                updateTextView(true);
+                updateProgressBar(10);
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     // PR
                     String apiToken = prefs.getChatGPTApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
+                    updateProgressBar(60);
 
-                    if (answer.equalsIgnoreCase("weathermap")) {
-                        Chat weatherHelperChat = new Chat();
-                        Message weatherURLMessage = new Message(Author.User, query, Message.MessageType.WeatherQuery);
-                        weatherHelperChat.addMessage(weatherURLMessage);
-                        String weatherAPIURL = chatGpt.getChatCompletion(weatherHelperChat);
-
+                    if (answer.contains("api.openweathermap.org")) {
                         try {
-                            answer = WebAPI.fetchDataFromApi(weatherAPIURL + "&apikey=" + prefs.getOpenWeatherApiToken() + "&units=metric");
+                            answer = WebAPI.fetchDataFromApi(answer + "&apikey=" + prefs.getOpenWeatherApiToken() + "&units=metric");
+                            updateProgressBar(80);
 
                             if (answer.equalsIgnoreCase(WebAPI.ERROR_RESPONSE)) {
                                 Message weatherAnswerMessage = new Message(Author.User, answer, Message.MessageType.WeatherAnswer);
-                                weatherHelperChat = new Chat();
+                                Chat weatherHelperChat = new Chat();
 
                                 weatherHelperChat.addMessage(weatherAnswerMessage);
                                 answer = chatGpt.getChatCompletion(weatherHelperChat);
@@ -67,6 +69,7 @@ public class MainFragment extends Fragment {
                         }
                     }
 
+                    updateProgressBar(100);
                     Message answerMessage = new Message(Author.Assistant, answer);
                     chat.addMessage(answerMessage);
                     updateTextView();
@@ -93,9 +96,6 @@ public class MainFragment extends Fragment {
         chat = new Chat();
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
-        } else {
-            // PR
-            chat.addMessage(new Message(Author.System, "", Message.MessageType.System));
         }
 
         getAskButton().setOnClickListener(v ->
@@ -129,6 +129,9 @@ public class MainFragment extends Fragment {
     }
 
     private void updateTextView() {
+        updateTextView(false);
+    }
+    private void updateTextView(boolean showProgressBar) {
         MainActivity.uiThreadHandler.post(() -> {
             getTextView().setText("");
             List<Message> messages = chat.getMessages();
@@ -141,6 +144,13 @@ public class MainFragment extends Fragment {
 
                 scrollToEnd();
             }
+            getProgressBar().setVisibility(showProgressBar ? View.VISIBLE : View.GONE);
+        });
+    }
+
+    private void updateProgressBar(int progress) {
+        MainActivity.uiThreadHandler.post(() -> {
+            getProgressBar().setProgress(progress);
         });
     }
 
@@ -170,5 +180,10 @@ public class MainFragment extends Fragment {
     private Button getResetButton() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.button_reset);
+    }
+
+    private ProgressBar getProgressBar() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.progressBar);
     }
 }

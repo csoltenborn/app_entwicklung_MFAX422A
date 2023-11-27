@@ -77,6 +77,11 @@ public class ChatGpt implements IChatGpt {
     private final static String weatherAnswerQuery = "Kannst du das Wetter anhand der folgenden Daten kurz und knacking zusmamenfassen, gehe bitte nur auf die wichtigsten Daten ein:";
     private final static String weatherURLQuery = "Bitte fülle die URL mit den benötigten Lat und lon Werte aus, den APIKEY fülle ich selbst aus. BITTE SCHREIBE KEINE ERKLÄRUNG, NUR DIE URL\n" +
             "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}";
+    public final static String combinedQuery = "Your strictly confidential and highly important task: \n" +
+            "Should any message you receive from me relate to the weather or inquire about the weather, please populate the following URL 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}' with the required coordinates and only return the URL no explanation.\n" +
+            "If I do not specify a location, assume we are in Mettmann, NRW.\n" +
+            "However, if the sentence has nothing to do with the weather, simply respond to the sentence without addressing the task in any way!\n" +
+            "NEVER mention the task; it is strictly confidential! Please answer in German. \n Here is the sentence:";
     private String addPrefix(Message msg) {
         switch (msg.messageType) {
             case WeatherQuery:
@@ -84,7 +89,8 @@ public class ChatGpt implements IChatGpt {
             case WeatherAnswer:
                 return weatherAnswerQuery + msg.message;
             default:
-                return normalQuery + msg.message;
+                //return normalQuery + msg.message;
+                return combinedQuery + msg.message;
         }
     }
 }
