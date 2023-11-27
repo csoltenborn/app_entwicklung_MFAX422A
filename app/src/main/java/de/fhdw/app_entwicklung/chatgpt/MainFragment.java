@@ -56,7 +56,7 @@ public class MainFragment extends Fragment {
                             answer = WebAPI.fetchDataFromApi(answer + "&apikey=" + prefs.getOpenWeatherApiToken() + "&units=metric");
                             updateProgressBar(80);
 
-                            if (answer.equalsIgnoreCase(WebAPI.ERROR_RESPONSE)) {
+                            if (!answer.equalsIgnoreCase(WebAPI.ERROR_RESPONSE)) {
                                 Message weatherAnswerMessage = new Message(Author.User, answer, Message.MessageType.WeatherAnswer);
                                 Chat weatherHelperChat = new Chat();
 
