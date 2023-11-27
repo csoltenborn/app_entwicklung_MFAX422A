@@ -15,6 +15,11 @@ public class MockChatGpt implements IChatGpt {
 
     @Override
     public String getChatCompletion(@NonNull Chat chat) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // who cares
+        }
         return MESSAGES[ThreadLocalRandom.current().nextInt(0, MESSAGES.length)];
     }
 

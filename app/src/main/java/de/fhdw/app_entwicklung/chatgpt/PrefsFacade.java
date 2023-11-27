@@ -13,8 +13,11 @@ public class PrefsFacade {
         this.context = context;
     }
 
-    public String getApiToken() {
+    public String getChatGPTApiToken() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("api_token", "");
     }
 
+    public String getOpenWeatherApiToken() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("weather_api_token", "");
+    }
 }

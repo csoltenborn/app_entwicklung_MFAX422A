@@ -22,6 +22,7 @@ import de.fhdw.app_entwicklung.chatgpt.model.Message;
 import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
+import de.fhdw.app_entwicklung.chatgpt.webapi.WebAPI;
 
 public class MainFragment extends Fragment {
 
@@ -37,12 +38,34 @@ public class MainFragment extends Fragment {
             query -> {
                 Message userMessage = new Message(Author.User, query);
                 chat.addMessage(userMessage);
-                updateTextView();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    String apiToken = prefs.getApiToken();
+                    // PR
+                    String apiToken = prefs.getChatGPTApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
+
+                    if (answer.equalsIgnoreCase("weathermap")) {
+                        Chat weatherHelperChat = new Chat();
+                        Message weatherURLMessage = new Message(Author.User, query, Message.MessageType.WeatherQuery);
+                        weatherHelperChat.addMessage(weatherURLMessage);
+                        String weatherAPIURL = chatGpt.getChatCompletion(weatherHelperChat);
+
+                        try {
+                            answer = WebAPI.fetchDataFromApi(weatherAPIURL + "&apikey=" + prefs.getOpenWeatherApiToken() + "&units=metric");
+
+                            if (answer.equalsIgnoreCase(WebAPI.ERROR_RESPONSE)) {
+                                Message weatherAnswerMessage = new Message(Author.User, answer, Message.MessageType.WeatherAnswer);
+                                weatherHelperChat = new Chat();
+
+                                weatherHelperChat.addMessage(weatherAnswerMessage);
+                                answer = chatGpt.getChatCompletion(weatherHelperChat);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            answer = WebAPI.ERROR_RESPONSE;
+                        }
+                    }
 
                     Message answerMessage = new Message(Author.Assistant, answer);
                     chat.addMessage(answerMessage);
@@ -70,6 +93,9 @@ public class MainFragment extends Fragment {
         chat = new Chat();
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
+        } else {
+            // PR
+            chat.addMessage(new Message(Author.System, "", Message.MessageType.System));
         }
 
         getAskButton().setOnClickListener(v ->
@@ -145,5 +171,4 @@ public class MainFragment extends Fragment {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.button_reset);
     }
-
 }

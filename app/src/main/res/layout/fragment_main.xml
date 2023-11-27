@@ -13,7 +13,6 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="0dp"

@@ -8,7 +8,15 @@ import java.util.Date;
 public class Message implements Parcelable {
     public final Date date;
     public final Author author;
-    public final String message;
+    public String message;
+    public MessageType messageType;
+
+    public enum MessageType {
+        Normal,
+        System,
+        WeatherAnswer,
+        WeatherQuery
+    }
 
     public Message(Author author, String message) {
         this(new Date(), author, message);
@@ -18,10 +26,25 @@ public class Message implements Parcelable {
         this.date = date;
         this.author = author;
         this.message = message;
+        this.messageType = MessageType.Normal;
+    }
+
+    public Message(Author author, String message, MessageType msgType) {
+        this.date = new Date();
+        this.author = author;
+        this.message = message;
+        this.messageType = msgType;
+    }
+
+    public Message(Date date, Author author, String message, MessageType msgType) {
+        this.date = date;
+        this.author = author;
+        this.message = message;
+        this.messageType = msgType;
     }
 
     protected Message(Parcel in) {
-        this(new Date(in.readLong()), Author.valueOf(in.readString()), in.readString());
+        this(new Date(in.readLong()), Author.valueOf(in.readString()), in.readString(), MessageType.valueOf(in.readString()));
     }
 
     @Override
@@ -29,6 +52,7 @@ public class Message implements Parcelable {
         dest.writeLong(date.getTime());
         dest.writeString(author.name());
         dest.writeString(message);
+        dest.writeString(messageType.name());
     }
 
     @Override
