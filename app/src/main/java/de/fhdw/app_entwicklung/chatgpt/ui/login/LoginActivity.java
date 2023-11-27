@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.fhdw.app_entwicklung.chatgpt.MainActivity;
+import de.fhdw.app_entwicklung.chatgpt.PrefsActivity;
 import de.fhdw.app_entwicklung.chatgpt.R;
 import de.fhdw.app_entwicklung.chatgpt.ui.login.LoginViewModel;
 import de.fhdw.app_entwicklung.chatgpt.ui.login.LoginViewModelFactory;
@@ -75,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
                 }
                 setResult(Activity.RESULT_OK);
 

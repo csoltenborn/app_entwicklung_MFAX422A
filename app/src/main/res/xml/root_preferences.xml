@@ -2,6 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="@string/app_behavior">
+        <EditTextPreference
+            app:defaultValue="1234"
+            app:key="app_password"
+            app:title="@string/app_password"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/app_behavior">
 
         <ListPreference
             app:defaultValue="en"

@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.content.Intent;
 import android.util.Patterns;
 
+import de.fhdw.app_entwicklung.chatgpt.PrefsActivity;
 import de.fhdw.app_entwicklung.chatgpt.data.LoginRepository;
 import de.fhdw.app_entwicklung.chatgpt.data.Result;
 import de.fhdw.app_entwicklung.chatgpt.data.model.LoggedInUser;
