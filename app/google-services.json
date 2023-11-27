@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1093072293771",
+    "project_id": "chatgpt-242c2",
+    "storage_bucket": "chatgpt-242c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093072293771:android:6d84ae93db15a4973f298e",
+        "android_client_info": {
+          "package_name": "de.fhdw.app_entwicklung.chatgpt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7-w8OA55sVON8E54muDETdl4KBh9ulM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainFragment">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
@@ -13,44 +14,92 @@
         android:orientation="vertical"
         tools:context=".MainActivity" >
 
+
         <ScrollView
             android:id="@+id/scrollview"
+            style="@android:style/Widget.DeviceDefault.Light.ScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="150dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/button_ask"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scrollbars="vertical"
-            android:fillViewport="true">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp" />
+                android:layout_marginBottom="15dp"
+                android:paddingRight="5dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:visibility="visible" />
         </ScrollView>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="404dp"
+            android:layout_height="151dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/scrollview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_ask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/radius_btn"
+            android:drawableStart="@drawable/mic_none_black_24dp"
             android:text="@string/ask"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button_reset"
+            android:paddingStart="15dp"
+            android:paddingEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_reset"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollview" />
 
         <Button
             android:id="@+id/button_reset"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="192dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/radius_btn"
+            android:drawableStart="@drawable/restart_alt_black_24dp"
             android:text="@string/reset"
-            app:layout_constraintStart_toEndOf="@+id/button_ask"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="18dp"
+            android:paddingEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollview" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_ask"
+            app:layout_constraintTop_toBottomOf="@+id/scrollview"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/camera"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="54dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/radius_btn"
+            android:drawableStart="@drawable/document_scanner_black_24dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="10dp"
+            android:text="Scan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_reset"
+            app:layout_constraintStart_toEndOf="@+id/button_ask"
+            app:layout_constraintTop_toBottomOf="@+id/scrollview"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
