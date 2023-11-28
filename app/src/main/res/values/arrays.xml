@@ -11,4 +11,72 @@
         <item>arch</item>
         <item>custom</item>
     </string-array>
+
+    <string-array name="kernel_entries">
+        <item>MAIN</item>
+        <item>LTS</item>
+        <item>ZEN</item>
+    </string-array>
+    <string-array name="kernel_values">
+        <item>main</item>
+        <item>lts</item>
+        <item>zen</item>
+    </string-array>
+
+
+    <string-array name="gpu_entries">
+        <item>NVIDIA</item>
+        <item>AMD</item>
+    </string-array>
+    <string-array name="gpu_values">
+        <item>nvidia</item>
+        <item>amd</item>
+    </string-array>
+
+    <string-array name="display_server_entries">
+        <item>X11</item>
+        <item>WAYLAND</item>
+    </string-array>
+    <string-array name="display_server_values">
+        <item>x11</item>
+        <item>wayland</item>
+    </string-array>
+    
+    <string-array name="desktop_environment_entries">
+        <item>Gnome</item>
+        <item>LXQT</item>
+        <item>KDE</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="desktop_environment_values">
+        <item>gnome</item>
+        <item>lxqt</item>
+        <item>kde</item>
+        <item>none</item>
+    </string-array>
+    
+    <string-array name="login_manager_entries">
+        <item>gdm</item>
+        <item>sddm</item>
+        <item>Ly</item>
+    </string-array>
+    <string-array name="login_manager_values">
+        <item>gdm</item>
+        <item>sddm</item>
+        <item>ly</item>
+    </string-array>
+
+    <string-array name="window_manager_entries">
+        <item>Hyprland</item>
+        <item>i3</item>
+        <item>BSPWM</item>
+        <item>AwesomeWM</item>
+    </string-array>
+    <string-array name="window_manager_values">
+        <item>hyprland-git</item>
+        <item>i3</item>
+        <item>bspwm</item>
+        <item>awesomewm</item>
+    </string-array>
+
 </resources>

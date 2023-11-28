@@ -13,7 +13,15 @@
     <string name="section_firewall" translatable="false">Firewall</string>
     <string name="section_autostart" translatable="false">Autostart</string>
     <string name="section_partitioning">Partitioning</string>
-    <string name="pref_distro_dialogTitle">Select a distribution</string>
-    <string name="prefs_distro_title">Select Distribution</string>
+    <string name="prefs_distro_title">Select a distribution</string>
     <string name="prefs_distro_custom_title">Enter custom distribution name</string>
+    <string name="prefs_kernel_title">Select Kernel</string>
+    <string name="prefs_gpu_title">Select GPU Manufacturer</string>
+    <string name="prefs_display_server_title">Select Display Server</string>
+    <string name="prefs_desktop_environment_title">Select DE</string>
+    <string name="prefs_login_manager_title">Select Login Manager</string>
+    <string name="pref_window_manager_title">Select Window Manager</string>
+    <string name="pref_packages_title">Select packages</string>
+    <string name="pref_firewall_title">Select firewall(s)</string>
+    <string name="pref_autostart_title">Select programs to run on startup</string>
 </resources>

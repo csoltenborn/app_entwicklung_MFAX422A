@@ -21,7 +21,7 @@
         <ListPreference
             app:key="pref_key_distribution"
             app:title="@string/prefs_distro_title"
-            app:dialogTitle="@string/pref_distro_dialogTitle"
+            app:dialogTitle="@string/prefs_distro_title"
             app:entries="@array/distribution_entries"
             app:entryValues="@array/distribution_values"
             app:useSimpleSummaryProvider="true"
@@ -41,6 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_kernel">
+
+        <ListPreference
+            app:key="pref_key_kernel"
+            app:title="@string/prefs_kernel_title"
+            app:dialogTitle="@string/prefs_kernel_title"
+            app:entries="@array/kernel_entries"
+            app:entryValues="@array/kernel_values"
+            app:useSimpleSummaryProvider="true"
+        >
+        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -48,6 +58,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_gpu">
+
+        <ListPreference
+            app:key="pref_key_gpu"
+            app:title="@string/prefs_gpu_title"
+            app:dialogTitle="@string/prefs_gpu_title"
+            app:entries="@array/kernel_entries"
+            app:entryValues="@array/kernel_values"
+            app:useSimpleSummaryProvider="true"
+            >
+        </ListPreference>
     </PreferenceCategory>
 
 
