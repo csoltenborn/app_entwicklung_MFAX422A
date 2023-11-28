@@ -1,4 +1,5 @@
 <resources>
+    <!-- Switch to enums for type safe entries and custom getters and setters -->
     <string-array name="distribution_entries">
         <item>Ubuntu</item>
         <item>Fedora</item>
@@ -59,11 +60,13 @@
         <item>gdm</item>
         <item>sddm</item>
         <item>Ly</item>
+        <item>None</item>
     </string-array>
     <string-array name="login_manager_values">
         <item>gdm</item>
         <item>sddm</item>
         <item>ly</item>
+        <item>none</item>
     </string-array>
 
     <string-array name="window_manager_entries">
@@ -77,6 +80,35 @@
         <item>i3</item>
         <item>bspwm</item>
         <item>awesomewm</item>
+    </string-array>
+
+    <string-array name="packages_entries">
+        <item>Firefox</item>
+        <item>Chrome</item>
+        <item>Teams</item>
+        <item>Qutebrowser</item>
+        <item>foot</item>
+    </string-array>
+    <string-array name="packages_values">
+        <item>firefox</item>
+        <item>chrome</item>
+        <item>teams</item>
+        <item>qutebrowser</item>
+        <item>foot</item>
+    </string-array>
+    <string-array name="packages_defaults">
+        <item>kitty</item>
+    </string-array>
+
+    <string-array name="firewall_entries">
+        <item>firewalld</item>
+        <item>iptables</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="firewall_values">
+        <item>firewalld</item>
+        <item>iptables</item>
+        <item>none</item>
     </string-array>
 
 </resources>

@@ -4,13 +4,11 @@
     <PreferenceCategory
         app:title="API"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    >
+        android:layout_height="wrap_content">
         <EditTextPreference
             app:key="api_token"
             app:title="API Token"
-            app:useSimpleSummaryProvider="true"
-        />
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -24,16 +22,15 @@
             app:dialogTitle="@string/prefs_distro_title"
             app:entries="@array/distribution_entries"
             app:entryValues="@array/distribution_values"
-            app:useSimpleSummaryProvider="true"
-        >
+            app:defaultValue="arch"
+            app:useSimpleSummaryProvider="true">
         </ListPreference>
         <EditTextPreference
             app:key="pref_key_custom_distribution"
             app:title="@string/prefs_distro_custom_title"
             app:dependency="pref_key_distribution"
             android:visible="false"
-            app:useSimpleSummaryProvider="true"
-        />
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -48,8 +45,8 @@
             app:dialogTitle="@string/prefs_kernel_title"
             app:entries="@array/kernel_entries"
             app:entryValues="@array/kernel_values"
-            app:useSimpleSummaryProvider="true"
-        >
+            app:defaultValue="main"
+            app:useSimpleSummaryProvider="true">
         </ListPreference>
     </PreferenceCategory>
 
@@ -63,10 +60,10 @@
             app:key="pref_key_gpu"
             app:title="@string/prefs_gpu_title"
             app:dialogTitle="@string/prefs_gpu_title"
-            app:entries="@array/kernel_entries"
-            app:entryValues="@array/kernel_values"
-            app:useSimpleSummaryProvider="true"
-            >
+            app:entries="@array/gpu_entries"
+            app:entryValues="@array/gpu_values"
+            app:defaultValue="nvidia"
+            app:useSimpleSummaryProvider="true">
         </ListPreference>
     </PreferenceCategory>
 
@@ -76,6 +73,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_display_server">
+
+        <ListPreference
+            app:key="pref_key_display_server"
+            app:title="@string/prefs_display_server_title"
+            app:dialogTitle="@string/prefs_display_server_title"
+            app:entries="@array/display_server_entries"
+            app:entryValues="@array/display_server_values"
+            app:defaultValue="wayland"
+            app:useSimpleSummaryProvider="true">
+        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -83,6 +90,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_DE">
+        <ListPreference
+            app:key="pref_key_desktop_environment"
+            app:title="@string/prefs_desktop_environment_title"
+            app:dialogTitle="@string/prefs_desktop_environment_title"
+            app:entries="@array/desktop_environment_entries"
+            app:entryValues="@array/desktop_environment_values"
+            app:defaultValue="none"
+            app:useSimpleSummaryProvider="true">
+        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -90,6 +106,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_login_manager">
+        <ListPreference
+            app:key="pref_key_login_manager"
+            app:title="@string/prefs_login_manager_title"
+            app:dialogTitle="@string/prefs_desktop_environment_title"
+            app:entries="@array/login_manager_entries"
+            app:entryValues="@array/login_manager_values"
+            app:defaultValue="ly"
+            app:useSimpleSummaryProvider="true">
+        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -97,6 +122,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_WM">
+        <ListPreference
+            app:key="pref_key_window_manager"
+            app:title="@string/pref_window_manager_title"
+            app:dialogTitle="@string/pref_window_manager_title"
+            app:entries="@array/window_manager_entries"
+            app:entryValues="@array/window_manager_values"
+            app:defaultValue="hyprland"
+            app:useSimpleSummaryProvider="true">
+        </ListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -104,6 +138,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_packages">
+        <MultiSelectListPreference
+            app:key="pref_key_packages"
+            app:title="@string/pref_packages_title"
+            app:dialogTitle="@string/pref_packages_title"
+            app:entries="@array/packages_entries"
+            app:entryValues="@array/packages_values"
+            app:defaultValue="@array/packages_defaults">
+            <!-- Hier wird ein custom Summary provider genutzt, um die selektierten packages anzuzeigen -->
+        </MultiSelectListPreference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -111,13 +154,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_firewall">
-    </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="selection_autostart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:title="@string/section_autostart">
+        <ListPreference
+            app:key="pref_key_firewall"
+            app:title="@string/pref_firewall_title"
+            app:dialogTitle="@string/pref_firewall_title"
+            app:entries="@array/firewall_entries"
+            app:entryValues="@array/firewall_values"
+            app:defaultValue="firewalld"
+            app:useSimpleSummaryProvider="true">
+        </ListPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>
