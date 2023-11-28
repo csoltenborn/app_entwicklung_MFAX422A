@@ -3,8 +3,7 @@ vim:foldmethod=marker
 -->
 
 # Distro Tailor
-
-%% Hello
+<!-- {{{ Übersicht -->
 ## Anwendungsarchitektur - UML-Übersicht
 
 ### Klassen
@@ -66,3 +65,10 @@ vim:foldmethod=marker
 - `PrefsFacade` wird von `MainFragment` für die Verwaltung von Einstellungen verwendet.
 - `TextToSpeechTool` wird von `MainFragment` für Text-zu-Sprache-Funktionalitäten verwendet.
 - `ChatGpt` interagiert mit `Chat` zur Verarbeitung von Chatnachrichten.
+<!-- }}} -->
+
+## Einleitung
+## Anforderungen
+## Umsetzung
+## Probleme / 'Lessons learned'
+## Fazit
