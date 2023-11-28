@@ -1,63 +1,63 @@
 # Distro Tailor
 
-## Application Architecture - UML Overview
+## Anwendungsarchitektur - UML-Übersicht
 
-### Classes
+### Klassen
 
 #### MainActivity
-- Extends: `AppCompatActivity`
-- Methods: `onCreate(Bundle)`, `onCreateOptionsMenu(Menu)`, `onOptionsItemSelected(MenuItem)`
-- Associations: Links to `PrefsActivity` and `MainFragment`
+- Erweitert: `AppCompatActivity`
+- Methoden: `onCreate(Bundle)`, `onCreateOptionsMenu(Menu)`, `onOptionsItemSelected(MenuItem)`
+- Assoziationen: Verbindungen zu `PrefsActivity` und `MainFragment`
 
 #### MainFragment
-- Extends: `Fragment`
-- Attributes: `prefs`, `textToSpeech`, `chat`
-- Methods: `onCreateView(LayoutInflater, ViewGroup, Bundle)`, `onViewCreated(View, Bundle)`, `onPause()`, `onSaveInstanceState(Bundle)`, `onDestroy()`
-- Associations: Uses `PrefsFacade`, `TextToSpeechTool`, `Chat`, `LaunchSpeechRecognition`
+- Erweitert: `Fragment`
+- Attribute: `prefs`, `textToSpeech`, `chat`
+- Methoden: `onCreateView(LayoutInflater, ViewGroup, Bundle)`, `onViewCreated(View, Bundle)`, `onPause()`, `onSaveInstanceState(Bundle)`, `onDestroy()`
+- Assoziationen: Verwendet `PrefsFacade`, `TextToSpeechTool`, `Chat`, `LaunchSpeechRecognition`
 
 #### PrefsActivity
-- Extends: `AppCompatActivity`
-- Inner Class: `SettingsFragment` (extends `PreferenceFragmentCompat`)
-- Methods: `onCreate(Bundle)`, `onOptionsItemSelected(MenuItem)`
+- Erweitert: `AppCompatActivity`
+- Innere Klasse: `SettingsFragment` (erweitert `PreferenceFragmentCompat`)
+- Methoden: `onCreate(Bundle)`, `onOptionsItemSelected(MenuItem)`
 
 #### PrefsFacade
-- Attributes: `context`
-- Methods: `getApiToken()`
-- Associations: Used by `MainFragment`
+- Attribute: `context`
+- Methoden: `getApiToken()`
+- Assoziationen: Wird von `MainFragment` verwendet
 
 #### LaunchSpeechRecognition
-- Extends: `ActivityResultContract`
-- Inner Class: `SpeechRecognitionArgs`
-- Methods: `createIntent(Context, SpeechRecognitionArgs)`, `parseResult(int, Intent)`
+- Erweitert: `ActivityResultContract`
+- Innere Klasse: `SpeechRecognitionArgs`
+- Methoden: `createIntent(Context, SpeechRecognitionArgs)`, `parseResult(int, Intent)`
 
 #### TextToSpeechTool
-- Implements: `TextToSpeech.OnInitListener`
-- Attributes: `textToSpeech`, `ttsAvailable`, `locale`
-- Methods: `onInit(int)`, `speak(String)`, `stop()`, `destroy()`
-- Associations: Used by `MainFragment`
+- Implementiert: `TextToSpeech.OnInitListener`
+- Attribute: `textToSpeech`, `ttsAvailable`, `locale`
+- Methoden: `onInit(int)`, `speak(String)`, `stop()`, `destroy()`
+- Assoziationen: Wird von `MainFragment` verwendet
 
 #### ChatGpt
-- Attributes: `apiToken`
-- Methods: `getChatCompletion(Chat)`
-- Associations: Uses `OpenAiService`, interacts with `Chat`
+- Attribute: `apiToken`
+- Methoden: `getChatCompletion(Chat)`
+- Assoziationen: Verwendet `OpenAiService`, interagiert mit `Chat`
 
 #### Author
-- Type: Enumeration
-- Values: `User`, `Assistant`, `System`
+- Typ: Aufzählung
+- Werte: `User`, `Assistant`, `System`
 
 #### Chat
-- Implements: `Parcelable`
-- Attributes: `messages` (List of `Message`)
-- Methods: `addMessage(Message)`, `getMessages()`
+- Implementiert: `Parcelable`
+- Attribute: `messages` (Liste von `Message`)
+- Methoden: `addMessage(Message)`, `getMessages()`
 
 #### Message
-- Implements: `Parcelable`
-- Attributes: `date`, `author` (Author), `message` (String)
-- Methods: Constructors, Parcelable methods
+- Implementiert: `Parcelable`
+- Attribute: `date`, `author` (Author), `message` (String)
+- Methoden: Konstruktoren, Parcelable-Methoden
 
-### Associations
-- `MainActivity` navigates to `PrefsActivity` and `MainFragment`.
-- `MainFragment` uses `PrefsFacade`, `TextToSpeechTool`, `Chat`, and `LaunchSpeechRecognition`.
-- `PrefsFacade` is used by `MainFragment` for preference management.
-- `TextToSpeechTool` is used by `MainFragment` for text-to-speech functionalities.
-- `ChatGpt` interacts with `Chat` for processing chat messages.
+### Assoziationen
+- `MainActivity` navigiert zu `PrefsActivity` und `MainFragment`.
+- `MainFragment` verwendet `PrefsFacade`, `TextToSpeechTool`, `Chat` und `LaunchSpeechRecognition`.
+- `PrefsFacade` wird von `MainFragment` für die Verwaltung von Einstellungen verwendet.
+- `TextToSpeechTool` wird von `MainFragment` für Text-zu-Sprache-Funktionalitäten verwendet.
+- `ChatGpt` interagiert mit `Chat` zur Verarbeitung von Chatnachrichten.
