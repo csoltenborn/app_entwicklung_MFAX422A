@@ -7,4 +7,10 @@
     <string name="section_gpu">GPU Selection</string>
     <string name="section_display_server" translatable="false">Display Server</string>
     <string name="section_DE">Desktop Environment</string>
+    <string name="section_login_manager" translatable="false">Login Manager</string>
+    <string name="section_WM" translatable="false">Window Manager</string>
+    <string name="section_packages">Packages</string>
+    <string name="section_firewall" translatable="false">Firewall</string>
+    <string name="section_autostart" translatable="false">Autostart</string>
+    <string name="section_partitioning">Partitioning</string>
 </resources>

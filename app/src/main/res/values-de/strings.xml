@@ -3,4 +3,7 @@
     <string name="ask">Fragen</string>
     <string name="settings">Einstellungen</string>
     <string name="section_gpu">GPU Auswahl</string>
+    <string name="section_DE">Desktop Umgebung</string>
+    <string name="section_packages">Pakete</string>
+    <string name="section_partitioning">Partitionierung</string>
 </resources>

@@ -1,22 +1,88 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="API">
-
+    <PreferenceCategory
+        app:title="API"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    >
         <EditTextPreference
             app:key="api_token"
             app:title="API Token"
             app:defaultValue="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"
-            app:useSimpleSummaryProvider="true" />
-
+            app:useSimpleSummaryProvider="true"
+        />
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key=""
+        app:key="selection_distro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Preference category">
+        app:title="@string/section_distro">
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        app:key="selection_kernel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_kernel">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_gpu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_gpu">
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:key="selection_display_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_display_server">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_DE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_DE">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_login_manager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_login_manager">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_WM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_WM">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_packages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_packages">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_firewall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_firewall">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="selection_autostart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:title="@string/section_autostart">
     </PreferenceCategory>
 
 </PreferenceScreen>
