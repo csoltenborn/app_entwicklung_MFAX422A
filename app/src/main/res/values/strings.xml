@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">ChatGpt</string>
+    <string name="app_name" translatable="false">ChatGPT</string>
     <string name="ask">Ask</string>
     <string name="settings">Settings</string>
 </resources>
