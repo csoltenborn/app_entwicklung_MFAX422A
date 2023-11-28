@@ -2,4 +2,9 @@
     <string name="app_name" translatable="false">ChatGPT</string>
     <string name="ask">Ask</string>
     <string name="settings">Settings</string>
+    <string name="section_distro" translatable="false">Distribution</string>
+    <string name="section_kernel" translatable="false">Kernel</string>
+    <string name="section_gpu">GPU Selection</string>
+    <string name="section_display_server" translatable="false">Display Server</string>
+    <string name="section_DE">Desktop Environment</string>
 </resources>
