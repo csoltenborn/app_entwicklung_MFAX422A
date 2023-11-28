@@ -8,7 +8,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import java.util.Set;
+
 
 public class PrefsActivity extends AppCompatActivity {
 
@@ -45,6 +49,9 @@ public class PrefsActivity extends AppCompatActivity {
             ListPreference distributionPref = findPreference("pref_key_distribution");
             EditTextPreference customDistroPref = findPreference("pref_key_custom_distribution");
 
+            MultiSelectListPreference packagesPref = findPreference("pref_key_packages");
+
+            // Handle the custom distro field, if custom is selected
             if (distributionPref != null && customDistroPref != null) {
                 distributionPref.setOnPreferenceChangeListener(((preference, newValue) -> {
                     boolean isCustomDistro = "custom".equals(newValue);
@@ -57,6 +64,21 @@ public class PrefsActivity extends AppCompatActivity {
                     return true;
                 }));
             }
+
+            // Custom Summary Provider for packages
+            if (packagesPref != null) {
+                packagesPref.setSummaryProvider(preference -> {
+                    Set<String> selectedValues = ((MultiSelectListPreference) preference).getValues();
+                    if (selectedValues.isEmpty()){
+                        return "No packages selected";
+                    } else {
+                        // Convert Set to array for String.join()
+                        String[] selectedValuesArr = selectedValues.toArray(new String[0]);
+                        return String.join(", ", selectedValuesArr);
+                    }
+                });
+            }
+
         }
     }
 }
