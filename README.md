@@ -1,5 +1,10 @@
+<!--
+vim:foldmethod=marker 
+-->
+
 # Distro Tailor
 
+%% Hello
 ## Anwendungsarchitektur - UML-Übersicht
 
 ### Klassen
