@@ -13,4 +13,7 @@
     <string name="section_firewall" translatable="false">Firewall</string>
     <string name="section_autostart" translatable="false">Autostart</string>
     <string name="section_partitioning">Partitioning</string>
+    <string name="pref_distro_dialogTitle">Select a distribution</string>
+    <string name="prefs_distro_title">Select Distribution</string>
+    <string name="prefs_distro_custom_title">Enter custom distribution name</string>
 </resources>

@@ -1,5 +1,6 @@
 package de.fhdw.app_entwicklung.chatgpt;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +52,7 @@ public class MainFragment extends Fragment {
                     chat.addMessage(answerMessage);
                     getTextView().append(CHAT_SEPARATOR);
                     getTextView().append(toString(answerMessage));
+                    getTextView().append(getSelectedDistribution());
                     textToSpeech.speak(answer);
                 });
             });
@@ -124,6 +127,17 @@ public class MainFragment extends Fragment {
     private Button getAskButton() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.button_ask);
+    }
+
+    private String getSelectedDistribution() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String selectedDistro = sharedPref.getString("pref_key_distribution", "default_value");
+        String customDistro = sharedPref.getString("pref_key_custom_distribution", "");
+
+        if (customDistro.isEmpty()) {
+            return selectedDistro;
+        }
+        return customDistro;
     }
 
 }

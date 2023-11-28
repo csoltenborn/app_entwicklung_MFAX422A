@@ -1,2 +1,14 @@
 <resources>
+    <string-array name="distribution_entries">
+        <item>Ubuntu</item>
+        <item>Fedora</item>
+        <item>Arch</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="distribution_values">
+        <item>ubuntu</item>
+        <item>fedora</item>
+        <item>arch</item>
+        <item>custom</item>
+    </string-array>
 </resources>

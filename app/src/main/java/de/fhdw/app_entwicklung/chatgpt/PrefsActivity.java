@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class PrefsActivity extends AppCompatActivity {
@@ -39,6 +41,22 @@ public class PrefsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            ListPreference distributionPref = findPreference("pref_key_distribution");
+            EditTextPreference customDistroPref = findPreference("pref_key_custom_distribution");
+
+            if (distributionPref != null && customDistroPref != null) {
+                distributionPref.setOnPreferenceChangeListener(((preference, newValue) -> {
+                    boolean isCustomDistro = "custom".equals(newValue);
+                    customDistroPref.setVisible("custom".equals(newValue));
+
+                    if (!isCustomDistro) {
+                        customDistroPref.setText("");
+                    }
+
+                    return true;
+                }));
+            }
         }
     }
 }

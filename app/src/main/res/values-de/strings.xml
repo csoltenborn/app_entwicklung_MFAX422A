@@ -6,4 +6,7 @@
     <string name="section_DE">Desktop Umgebung</string>
     <string name="section_packages">Pakete</string>
     <string name="section_partitioning">Partitionierung</string>
+    <string name="pref_distro_dialogTitle">Wähle eine Distribution</string>
+    <string name="prefs_distro_title">Wähle eine Distribution</string>
+    <string name="prefs_distro_custom_title">Gebe Name der Distribution ein</string>
 </resources>

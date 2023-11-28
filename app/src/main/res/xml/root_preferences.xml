@@ -18,6 +18,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:title="@string/section_distro">
+        <ListPreference
+            app:key="pref_key_distribution"
+            app:title="@string/prefs_distro_title"
+            app:dialogTitle="@string/pref_distro_dialogTitle"
+            app:entries="@array/distribution_entries"
+            app:entryValues="@array/distribution_values"
+            app:useSimpleSummaryProvider="true"
+        >
+        </ListPreference>
+        <EditTextPreference
+            app:key="pref_key_custom_distribution"
+            app:title="@string/prefs_distro_custom_title"
+            app:dependency="pref_key_distribution"
+            android:visible="false"
+            app:useSimpleSummaryProvider="true"
+        />
     </PreferenceCategory>
 
     <PreferenceCategory
