@@ -72,7 +72,7 @@ public class MainFragment extends Fragment {
 
             processQuery(query);
 
-            getTextView().append("<h1>Configuration Request Details</h1>\n" + getQueryInstructions() + generateQueryFromSettings());
+            getTextView().append("Configuration Request Details" + CHAT_SEPARATOR + getQueryInstructions() + generateQueryFromSettings());
             //processQuery("Write a simple markdown example template with heading and stuff");
         });
 
@@ -155,7 +155,11 @@ public class MainFragment extends Fragment {
                 "Firewall: <firewall_type>\n" +
                 "Autostart Settings: <autostart_settings>\n" +
                 "\n" +
-                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. Also, include instructions for installing the specified software packages and configuring the firewall. For Arch Linux, generate a script for post-installation tasks reflecting the chosen options, so that everything that can be installed after installing arch itself, will be installed and set up with said post install script. The instructions need to be detailled, the script need to be safe.\n";
+                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. Also, include instructions for installing the specified software packages and configuring the firewall." +
+                "For Arch Linux, generate a script for post-installation tasks reflecting the chosen options, so that everything that can be installed after installing arch itself, will be installed and set up with said post install script. The instructions need to be detailled, the script need to be safe.\n" +
+                "Make sure, every step listed in my formatted configuration will be mentioned and explained." +
+                "Format your response nicely with headings and whatever you think seems suitable" +
+                "The next part of this query will be the selected configuration. Read it like described above.";
         return customInstructions;
     }
 

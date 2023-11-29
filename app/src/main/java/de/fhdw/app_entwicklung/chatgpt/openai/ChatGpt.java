@@ -33,7 +33,7 @@ public class ChatGpt {
                     .map(this::toChatMessage)
                     .collect(Collectors.toList());
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                    .model("gpt-3.5-turbo")
+                    .model("gpt-4")
                     .messages(messages)
                     .n(1)
                     .maxTokens(2048)

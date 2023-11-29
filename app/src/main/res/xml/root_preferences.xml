@@ -15,6 +15,14 @@
                 app:useSimpleSummaryProvider="true" />
         </PreferenceCategory>
         <PreferenceCategory
+            app:title="Model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ListPreference>
+
+            </ListPreference>
+        </PreferenceCategory>
+        <PreferenceCategory
             app:title="Language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
