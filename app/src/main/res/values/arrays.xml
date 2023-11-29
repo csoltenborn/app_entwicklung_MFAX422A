@@ -111,4 +111,13 @@
         <item>none</item>
     </string-array>
 
+     <string-array name="language_names">
+        <item>English</item>
+        <item>Deutsch</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
 </resources>

@@ -15,5 +15,15 @@
     <string name="pref_window_manager_title">Wähle Window Manager</string>
     <string name="pref_firewall_title">Wähle Firewall(s)</string>
     <string name="pref_packages_title">Wähle Pakete</string>
-    <string name="btn_generate_title">Generiere Skripte</string>
+    <string name="btn_generate_title">Ausführen</string>
+    <string name="btn_config_title">Konfigurieren</string>
+    <string name="pref_screen_app_settings_title">App Einstellungen</string>
+    <string name="pref_screen_config_title">Konfiguration</string>
+    <string name="prefs_language">Sprache</string>
+    <string name="restart_required_title">Neustart erforderlich</string>
+    <string name="restart_required_message">Starte die App neu, um diese Einstellungen anzuwenden!</string>
+    <string name="restart_now">jetzt neustarten</string>
+    <string name="later">später</string>
+    <string name="alert_time">Achtung</string>
+    <string name="alert_time_message">Dies kann einen Moment dauern</string>
 </resources>

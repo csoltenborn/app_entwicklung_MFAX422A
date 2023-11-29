@@ -1,11 +1,17 @@
 package de.fhdw.app_entwicklung.chatgpt;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,12 +26,14 @@ import androidx.preference.PreferenceManager;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
 import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
+import io.noties.markwon.Markwon;
 
 public class MainFragment extends Fragment {
 
@@ -34,6 +42,8 @@ public class MainFragment extends Fragment {
 
     private PrefsFacade prefs;
     private Chat chat;
+
+    private ProgressBar progressBar;
 
     public MainFragment() {
     }
@@ -47,6 +57,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        applyLanguageSetting();
 
         prefs = new PrefsFacade(requireContext());
         chat = new Chat();
@@ -54,15 +65,20 @@ public class MainFragment extends Fragment {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
         }
 
-
+        progressBar = getView().findViewById(R.id.progressBar);
 
         getGenerateButton().setOnClickListener(v -> {
             String query = getQueryInstructions() + generateQueryFromSettings();
 
             processQuery(query);
 
-            getTextView().append(getQueryInstructions() + generateQueryFromSettings());
-            //processQuery("Hello GPT");
+            getTextView().append("<h1>Configuration Request Details</h1>\n" + getQueryInstructions() + generateQueryFromSettings());
+            //processQuery("Write a simple markdown example template with heading and stuff");
+        });
+
+        getConfigureButton().setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), PrefsActivity.class);
+            startActivity(intent);
         });
 
         updateTextView();
@@ -95,6 +111,8 @@ public class MainFragment extends Fragment {
     }
 
     private void processQuery(String query) {
+        showProgressBar();
+        showTimeDialog();
         MainActivity.backgroundExecutorService.execute(() -> {
             Message userMsg = new Message(Author.User, query);
             chat.addMessage(userMsg);
@@ -109,12 +127,14 @@ public class MainFragment extends Fragment {
             // Use runOnUiThread for UI updates
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
+                    hideProgressBar();
                     if (chat.getMessages().size() > 1) {
                         getTextView().append(CHAT_SEPARATOR);
                     }
-                    getTextView().append(toString(answerMsg));
-                    ScrollView scrollView = getScrollView();
-                    scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+                    //getTextView().append(toString(answerMsg));
+                    displayResponseAsMarkdown(answerMsg.message);
+                    //ScrollView scrollView = getScrollView();
+                    //scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
                 });
             }
         });
@@ -135,10 +155,11 @@ public class MainFragment extends Fragment {
                 "Firewall: <firewall_type>\n" +
                 "Autostart Settings: <autostart_settings>\n" +
                 "\n" +
-                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. Also, include instructions for installing the specified software packages and configuring the firewall. For Arch Linux, additionally, generate a script for post-installation tasks reflecting the chosen options.\n";
+                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. Also, include instructions for installing the specified software packages and configuring the firewall. For Arch Linux, generate a script for post-installation tasks reflecting the chosen options, so that everything that can be installed after installing arch itself, will be installed and set up with said post install script. The instructions need to be detailled, the script need to be safe.\n";
         return customInstructions;
     }
 
+    // Move to PrefsFacade
     private String getSelectedDistribution() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String selectedDistro = sharedPref.getString("pref_key_distribution", "arch");
@@ -174,6 +195,21 @@ public class MainFragment extends Fragment {
 
         // Convert Set to array for String.join()
         return concatenateString.toString();
+    }
+
+    private void applyLanguageSetting() {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+    String languageCode = prefs.getString("pref_key_language", "default"); // default is your default language code
+    setLocale(languageCode);
+    }
+
+    private void setLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Resources resources = getContext().getResources();
+        Configuration config = resources.getConfiguration();
+        config.locale = locale;
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
     // Remove
@@ -226,6 +262,32 @@ public class MainFragment extends Fragment {
         return getView().findViewById(R.id.btn_generate);
     }
 
+    private Button getConfigureButton() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.btn_config);
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+}
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+    private void showTimeDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.alert_time)
+                .setMessage(R.string.alert_time_message)
+                .setNeutralButton("Okay", null)
+                .show();
+    }
+
+    private void displayResponseAsMarkdown(String markdownText) {
+        TextView textView = getTextView();
+        Markwon mw = Markwon.create(requireContext());
+
+        mw.setMarkdown(textView, markdownText);
+    }
 
 
 }

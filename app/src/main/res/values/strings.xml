@@ -22,5 +22,15 @@
     <string name="pref_window_manager_title">Select Window Manager</string>
     <string name="pref_packages_title">Select packages</string>
     <string name="pref_firewall_title">Select firewall(s)</string>
-    <string name="btn_generate_title">Generate Scripts</string>
+    <string name="btn_generate_title">Generate</string>
+    <string name="btn_config_title">Configure</string>
+    <string name="pref_screen_app_settings_title">App Settings</string>
+    <string name="pref_screen_config_title">Config</string>
+    <string name="prefs_language">Language</string>
+    <string name="restart_required_title">Restart required</string>
+    <string name="restart_required_message">To apply these settings, restart the app!</string>
+    <string name="restart_now">restart now</string>
+    <string name="later">later</string>
+    <string name="alert_time">Attention</string>
+    <string name="alert_time_message">This could take a while</string>
 </resources>
