@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment {
 
             processQuery(query);
 
-            //getTextView().append(getQueryInstructions() + generateQueryFromSettings());
+            getTextView().append(getQueryInstructions() + generateQueryFromSettings());
             //processQuery("Hello GPT");
         });
 
@@ -94,24 +95,31 @@ public class MainFragment extends Fragment {
     }
 
     private void processQuery(String query) {
-        Message userMsg = new Message(Author.User, query);
-        chat.addMessage(userMsg);
-        if (chat.getMessages().size() > 1) {
-            getTextView().append(CHAT_SEPARATOR);
-        }
-        //getTextView().append(toString(userMsg));
-
         MainActivity.backgroundExecutorService.execute(() -> {
+            Message userMsg = new Message(Author.User, query);
+            chat.addMessage(userMsg);
+
             String apiToken = prefs.getApiToken();
             ChatGpt chatGpt = new ChatGpt(apiToken);
             String answer = chatGpt.getChatCompletion(chat);
 
             Message answerMsg = new Message(Author.Assistant, answer);
             chat.addMessage(answerMsg);
-            getTextView().append(CHAT_SEPARATOR);
-            getTextView().append(toString(answerMsg));
+
+            // Use runOnUiThread for UI updates
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (chat.getMessages().size() > 1) {
+                        getTextView().append(CHAT_SEPARATOR);
+                    }
+                    getTextView().append(toString(answerMsg));
+                    ScrollView scrollView = getScrollView();
+                    scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+                });
+            }
         });
     }
+
 
     private String getQueryInstructions() {
         String customInstructions = "Generate a detailed set of Linux installation instructions and, if the selected distribution is Arch Linux, include a post-installation script. The user's preferences will be specified in the following format:\n" +
@@ -206,6 +214,11 @@ public class MainFragment extends Fragment {
     private TextView getTextView() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.textView);
+    }
+
+    private ScrollView getScrollView() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.scrollView);
     }
 
     private Button getGenerateButton() {

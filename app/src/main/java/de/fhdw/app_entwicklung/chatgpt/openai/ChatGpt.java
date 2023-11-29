@@ -26,7 +26,7 @@ public class ChatGpt {
     }
 
     public String getChatCompletion(@NonNull Chat chat) {
-        OpenAiService service = new OpenAiService(apiToken, Duration.ofSeconds(90));
+        OpenAiService service = new OpenAiService(apiToken, Duration.ofSeconds(600));
 
         try {
             List<ChatMessage> messages = chat.getMessages().stream()
