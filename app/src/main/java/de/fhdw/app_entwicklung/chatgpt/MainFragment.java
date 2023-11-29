@@ -99,7 +99,7 @@ public class MainFragment extends Fragment {
         if (chat.getMessages().size() > 1) {
             getTextView().append(CHAT_SEPARATOR);
         }
-        getTextView().append(toString(userMsg));
+        //getTextView().append(toString(userMsg));
 
         MainActivity.backgroundExecutorService.execute(() -> {
             String apiToken = prefs.getApiToken();
