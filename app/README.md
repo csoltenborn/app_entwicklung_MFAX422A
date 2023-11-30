@@ -1,7 +1,5 @@
 # Einleitung (ImageToText)
-
-Die jüngste Aktualisierung hat eine bedeutende Erweiterung der App hinzugefügt. Durch diese Verbesserung können Benutzer direkte **Bilder** von ihren mobilen Geräten auswählen. Die App kann den **Text aus ausgewählten Bildern** extrahieren und ihn dann reibungslos a **ChatGPT** weiterleiten. Die Erweiterung verbessert die App erheblich, indem sie Anwendern die Möglichkeit bietet, beispielsweise mathematische Aufgaben von einem Blatt auszulesen und sofort die Lösung zu erhalten.
-
+Die letzte Aktualisierung hat der App eine wichtige Neuerung hinzugefügt. Jetzt können Nutzer direkt **Bilder** von ihren Handys auswählen. Die App kann dann den **Text aus den ausgewählten Bildern** extrahieren und ihn problemlos an **ChatGPT** weitergeben. Diese Erweiterung macht die App viel besser, da Nutzer nun beispielsweise mathematische Aufgaben von einem Blatt abfotografieren können und sofort die Lösung bekommen.
 # Anforderungen
 Die neueste Erweiterung, die eingeführt wurde, ermöglicht es nun, **Bilder auszuwählen** und ChatGPT den enthaltenen Text zu senden. Die Benutzer können mit dieser Funktion Textinformationen aus Bildern extrahieren und eine Antwort von ChatGPT erhalten.
 

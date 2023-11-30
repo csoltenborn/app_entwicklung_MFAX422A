@@ -59,7 +59,7 @@ public class MainFragment extends Fragment {
                 scrollToEnd();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    String apiToken = "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";
+                    String apiToken = prefs.getApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
@@ -154,7 +154,7 @@ public class MainFragment extends Fragment {
                 // Ein Hintergrund-Thread wird gestartet, um mit ChatGPT zu kommunizieren.
                 MainActivity.backgroundExecutorService.execute(() -> {
                     // Ein API-Token für die ChatGPT-Kommunikation wird definiert.
-                    String apiToken = "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";
+                    String apiToken = prefs.getApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
 
                     // Die Kommunikation mit ChatGPT erfolgt, und die Antwort wird als ChatGPT-Nachricht hinzugefügt.
