@@ -3,6 +3,7 @@ package de.fhdw.app_entwicklung.chatgpt;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
+import java.util.Locale;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
@@ -62,6 +64,7 @@ public class MainFragment extends Fragment {
                         if (prefs.speakOutLoud()) {
                             // Setze die Sprache in der TextToSpeechTool-Klasse
                             textToSpeech.setLanguage(prefs.getLocale());
+
                             // Führe die Sprachausgabe durch
                             textToSpeech.speak(answer);
 
@@ -76,39 +79,8 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //return inflater.inflate(R.layout.fragment_main, container, false);
 
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        // Neue Codezeilen für die Spracheinstellungen
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String selectedLanguage = preferences.getString("language", "default_language_value");
-
-        // Beispiel: Verwende die ausgewählte Sprache, um die korrekte Ressource zu laden
-        int askResourceId = getResourceId("ask", selectedLanguage);
-        String askText = getString(askResourceId);
-
-        // Beispiel: Aktualisiere eine TextView mit dem ausgewählten Text
-        TextView textView = rootView.findViewById(R.id.textView);
-        textView.setText(askText);
-        return rootView;
-    }
-
-
-    // Methode, um die Ressourcen-ID für eine bestimmte Zeichenkette in einer bestimmten Sprache zu erhalten
-    private int getResourceId(String resourceName, String language) {
-        Resources resources = getResources();
-        String packageName = getActivity().getPackageName();
-        int resourceId = resources.getIdentifier(resourceName, "string", packageName);
-
-        // Wenn die Ressource für die ausgewählte Sprache nicht gefunden wird, verwende die Standard-Ressource
-        if (resourceId == 0) {
-            resourceId = resources.getIdentifier(resourceName, "string", packageName);
-        }
-
-        return resourceId;
-
+                return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
 
@@ -116,8 +88,14 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Gerätstandart Sprache als Sprache aus wählen
         prefs = new PrefsFacade(requireContext());
+
+        getContext().getResources().getConfiguration().setLocale(prefs.getLocale());
+
+        Locale.setDefault(prefs.getLocale());
+        Log.i("Test Main", Locale.getDefault()+"");
+        //Gerätstandart Sprache als Sprache aus wählen
+        //prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
 
         //New
@@ -134,6 +112,7 @@ public class MainFragment extends Fragment {
                 //Gerätstandart Sprache als Sprache aus wählen
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
+            textToSpeech.stop();
             chat = new Chat();
             updateTextView();
         });
