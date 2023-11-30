@@ -2,6 +2,9 @@
 vim:foldmethod=marker 
 -->
 
+![Android Workflow]
+(https://github.com/h0useofdupree/app_entwicklung_MFAX422A/actions/workflows/android.yml/badge.svg)
+
 # _DistroTailor_
 
 ## Einleitung
