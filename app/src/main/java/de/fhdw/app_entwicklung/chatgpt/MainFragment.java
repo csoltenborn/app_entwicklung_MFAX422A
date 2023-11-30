@@ -34,16 +34,18 @@ public class MainFragment extends Fragment {
     private TextToSpeechTool textToSpeech;
     private Chat chat;
 
+    private boolean first = true;
+
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
-                Message userMessage = new Message(Author.User, query);
-                chat.addMessage(userMessage);
-                if (chat.getMessages().size() > 1) {
-                    getTextView().append(CHAT_SEPARATOR);
-                }
-                getTextView().append(toString(userMessage));
-                scrollToEnd();
+                    Message userMessage = new Message(Author.User, query);
+                    chat.addMessage(userMessage);
+                    if (chat.getMessages().size() > 1) {
+                        getTextView().append(CHAT_SEPARATOR);
+                    }
+                    getTextView().append(toString(userMessage));
+                    scrollToEnd();
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     ChatGpt chatGpt = new ChatGpt(prefs.getApiToken(), prefs.getModel());
@@ -78,20 +80,20 @@ public class MainFragment extends Fragment {
 
         prefs = new PrefsFacade(requireContext());
         textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
-
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
         } else {
             chat = createNewChat();
         }
+            getAskButton().setOnClickListener(v ->
+                    getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
 
-        getAskButton().setOnClickListener(v ->
-                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
             chat = createNewChat();
             updateTextView();
         });
         updateTextView();
+        getTextView().setText("To start the game press ’Ask’ and then say Start!");
     }
 
     @Override
@@ -136,7 +138,7 @@ public class MainFragment extends Fragment {
 
     private Chat createNewChat() {
         Chat chat = new Chat();
-        chat.addMessage(new Message(Author.System, prefs.getSpeakingStyle()));
+        chat.addMessage(new Message(Author.System,"You are an Dungeon Master for the Game ’Dungeons and Dragons’. You will behave like a Dungeon Master. I Have a "+ prefs.getGender() +" Level 1 " + prefs.getUserClass() + " character named ’"+ prefs.getName()+"’ that is starting a new quest that you are creating. Make Sure that the player can earn Experience and Level up, aswell as that he has to roll on certian actions to see if he succeeded in the action or not."));
         return chat;
     }
 

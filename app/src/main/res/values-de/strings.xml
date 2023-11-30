@@ -11,4 +11,6 @@
     <string name="api_configuration">API-Konfiguration</string>
     <string name="api_token">API-Token</string>
     <string name="openai_model">OpenAI-Modell</string>
+    <string name="Userclass">Klasse</string>
+    <string name="gender">Geschlecht</string>
 </resources>
