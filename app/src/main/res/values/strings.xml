@@ -3,4 +3,9 @@
     <string name="ask">Ask</string>
     <string name="settings">Settings</string>
     <string name="reset">Reset</string>
+
+    <!--Sprache hinzufügen-->
+    <string name="language">Language</string>
+    <string name="read_chatgpt_s_answer_out_loud">Read ChatGpt\'s answer out loud</string>
+    <string name="ChatGpt_Version">ChatGpt Version</string>
 </resources>

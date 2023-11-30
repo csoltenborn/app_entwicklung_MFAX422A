@@ -17,7 +17,7 @@ import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
 
-public class ChatGpt implements IChatGpt {
+public class ChatGpt{
 
     private final String apiToken;
 
@@ -25,7 +25,7 @@ public class ChatGpt implements IChatGpt {
         this.apiToken = apiToken;
     }
 
-    @Override
+
     public String getChatCompletion(@NonNull Chat chat) {
         OpenAiService service = new OpenAiService(apiToken, Duration.ofSeconds(90));
 
@@ -34,7 +34,8 @@ public class ChatGpt implements IChatGpt {
                     .map(this::toChatMessage)
                     .collect(Collectors.toList());
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                    .model("gpt-3.5-turbo")
+                    //Version auf gpt 4 geändert
+                    .model("gpt-4")
                     .messages(messages)
                     .n(1)
                     .maxTokens(2048)

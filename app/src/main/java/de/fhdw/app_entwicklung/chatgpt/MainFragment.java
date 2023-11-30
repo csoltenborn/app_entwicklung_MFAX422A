@@ -1,5 +1,7 @@
 package de.fhdw.app_entwicklung.chatgpt;
 
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +14,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import java.util.List;
-import java.util.Locale;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
-import de.fhdw.app_entwicklung.chatgpt.openai.IChatGpt;
-import de.fhdw.app_entwicklung.chatgpt.openai.MockChatGpt;
+import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
@@ -46,7 +47,7 @@ public class MainFragment extends Fragment {
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
-                    IChatGpt chatGpt = new MockChatGpt(apiToken);
+                    ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
@@ -56,7 +57,15 @@ public class MainFragment extends Fragment {
                         getTextView().append(CHAT_SEPARATOR);
                         getTextView().append(toString(answerMessage));
                         scrollToEnd();
-                        textToSpeech.speak(answer);
+
+                        //Für einstellung ob es gesagt+geschriben oder nur geschriben werden soll
+                        if (prefs.speakOutLoud()) {
+                            // Setze die Sprache in der TextToSpeechTool-Klasse
+                            textToSpeech.setLanguage(prefs.getLocale());
+                            // Führe die Sprachausgabe durch
+                            textToSpeech.speak(answer);
+
+                        }
                     });
                 });
             });
@@ -67,22 +76,63 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        //return inflater.inflate(R.layout.fragment_main, container, false);
+
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        // Neue Codezeilen für die Spracheinstellungen
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String selectedLanguage = preferences.getString("language", "default_language_value");
+
+        // Beispiel: Verwende die ausgewählte Sprache, um die korrekte Ressource zu laden
+        int askResourceId = getResourceId("ask", selectedLanguage);
+        String askText = getString(askResourceId);
+
+        // Beispiel: Aktualisiere eine TextView mit dem ausgewählten Text
+        TextView textView = rootView.findViewById(R.id.textView);
+        textView.setText(askText);
+        return rootView;
     }
+
+
+    // Methode, um die Ressourcen-ID für eine bestimmte Zeichenkette in einer bestimmten Sprache zu erhalten
+    private int getResourceId(String resourceName, String language) {
+        Resources resources = getResources();
+        String packageName = getActivity().getPackageName();
+        int resourceId = resources.getIdentifier(resourceName, "string", packageName);
+
+        // Wenn die Ressource für die ausgewählte Sprache nicht gefunden wird, verwende die Standard-Ressource
+        if (resourceId == 0) {
+            resourceId = resources.getIdentifier(resourceName, "string", packageName);
+        }
+
+        return resourceId;
+
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Gerätstandart Sprache als Sprache aus wählen
         prefs = new PrefsFacade(requireContext());
-        textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
+        textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
+
+        //New
+        getAskButton().setOnClickListener(v ->
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
+
+
         chat = new Chat();
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
         }
 
         getAskButton().setOnClickListener(v ->
-                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+                //Gerätstandart Sprache als Sprache aus wählen
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
             chat = new Chat();
             updateTextView();
