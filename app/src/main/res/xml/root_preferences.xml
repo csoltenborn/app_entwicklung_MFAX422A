@@ -2,7 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
         app:key="pref_screen_app_settings"
         app:title="@string/pref_screen_app_settings_title">
         <PreferenceCategory
@@ -18,21 +17,14 @@
             app:title="Model"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ListPreference>
-
-            </ListPreference>
-        </PreferenceCategory>
-        <PreferenceCategory
-            app:title="Language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <ListPreference
-                android:key="pref_key_language"
-                android:title="@string/prefs_language"
-                android:dialogTitle="@string/prefs_language"
-                android:entries="@array/language_names"
-                android:entryValues="@array/language_values"
-                android:defaultValue="en" />
+                app:key="pref_key_model"
+                app:title="@string/pref_model_title"
+                app:dialogTitle="@string/pref_model_title"
+                app:entries="@array/model_entries"
+                app:entryValues="@array/model_values"
+                app:useSimpleSummaryProvider="true">
+            </ListPreference>
         </PreferenceCategory>
     </PreferenceScreen>
 

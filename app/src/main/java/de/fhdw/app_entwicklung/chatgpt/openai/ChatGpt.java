@@ -1,5 +1,6 @@
 package de.fhdw.app_entwicklung.chatgpt.openai;
 
+
 import androidx.annotation.NonNull;
 
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -20,9 +21,12 @@ import de.fhdw.app_entwicklung.chatgpt.model.Message;
 public class ChatGpt {
 
     private final String apiToken;
+    private final String model;
 
-    public ChatGpt(String apiToken) {
+
+    public ChatGpt(String apiToken, String model) {
         this.apiToken = apiToken;
+        this.model = model;
     }
 
     public String getChatCompletion(@NonNull Chat chat) {
@@ -33,7 +37,7 @@ public class ChatGpt {
                     .map(this::toChatMessage)
                     .collect(Collectors.toList());
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                    .model("gpt-4")
+                    .model(model)
                     .messages(messages)
                     .n(1)
                     .maxTokens(2048)

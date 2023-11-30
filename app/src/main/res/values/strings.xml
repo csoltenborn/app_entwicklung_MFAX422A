@@ -33,4 +33,5 @@
     <string name="later">later</string>
     <string name="alert_time">Attention</string>
     <string name="alert_time_message">This could take a while</string>
+    <string name="pref_model_title" translatable="false">GPT-Model</string>
 </resources>

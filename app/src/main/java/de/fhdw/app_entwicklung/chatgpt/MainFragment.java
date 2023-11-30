@@ -2,9 +2,6 @@ package de.fhdw.app_entwicklung.chatgpt;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
@@ -37,8 +32,6 @@ public class MainFragment extends Fragment {
     private PrefsFacade prefs;
     private Chat chat;
 
-    private ProgressBar progressBar;
-
     public MainFragment() {
     }
 
@@ -51,7 +44,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        applyLanguageSetting();
 
         prefs = new PrefsFacade(requireContext());
         chat = new Chat();
@@ -59,14 +51,16 @@ public class MainFragment extends Fragment {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
         }
 
-        progressBar = getView().findViewById(R.id.progressBar);
-
         getGenerateButton().setOnClickListener(v -> {
-            String query = getQueryInstructions() + generateQueryFromSettings();
+            String query = getQueryInstructions() +
+                    generateQueryFromSettings();
 
             processQuery(query);
 
-            getTextView().append("Configuration Request Details" + CHAT_SEPARATOR + getQueryInstructions() + generateQueryFromSettings());
+            getTextView().append("Configuration Request Details" +
+                    CHAT_SEPARATOR +
+                    getQueryInstructions() +
+                    generateQueryFromSettings());
             //processQuery("Write a simple markdown example template with heading and stuff");
         });
 
@@ -80,39 +74,37 @@ public class MainFragment extends Fragment {
 
     private String generateQueryFromSettings() {
         String selectedDistro = getSelectedDistribution();
-        String selectedKernel = getSelectedValueFor("pref_key_kernel", "main");
-        String selectedGPU = getSelectedValueFor("pref_key_gpu", "nvidia");
-        String selectedDisplayServer = getSelectedValueFor("pref_key_display_server", "wayland");
-        String selectedDesktopEnvironment = getSelectedValueFor("pref_key_desktop_environment", "none");
-        String selectedLoginManager = getSelectedValueFor("pref_key_login_manager", "ly");
-        String selectedWindowManager = getSelectedValueFor("pref_key_window_manager", "hyprland");
+        String selectedKernel = prefs.getPrefString("pref_key_kernel", "main");
+        String selectedGPU = prefs.getPrefString("pref_key_gpu", "nvidia");
+        String selectedDisplayServer = prefs.getPrefString("pref_key_display_server", "wayland");
+        String selectedDesktopEnvironment = prefs.getPrefString("pref_key_desktop_environment", "none");
+        String selectedLoginManager = prefs.getPrefString("pref_key_login_manager", "ly");
+        String selectedWindowManager = prefs.getPrefString("pref_key_window_manager", "hyprland");
         String selectedPackages = getSelectedPackages();
-        String selectedFirewall = getSelectedValueFor("pref_key_firewall", "none");
+        String selectedFirewall = prefs.getPrefString("pref_key_firewall", "none");
 
 
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("\n\n\nSelected Distribution: ").append(selectedDistro).append("\n");
-        queryBuilder.append("Selected Kernel: ").append(selectedKernel).append("\n");
-        queryBuilder.append("Selected GPU: ").append(selectedGPU).append("\n");
-        queryBuilder.append("Selected Display Server: ").append(selectedDisplayServer).append("\n");
-        queryBuilder.append("Selected Desktop Environment: ").append(selectedDesktopEnvironment).append("\n");
-        queryBuilder.append("Selected Login Manager: ").append(selectedLoginManager).append("\n");
-        queryBuilder.append("Selected Window Manager: ").append(selectedWindowManager).append("\n");
-        queryBuilder.append("Selected Packages: ").append(selectedPackages).append("\n");
-        queryBuilder.append("Selected Firewall: ").append(selectedFirewall).append("\n");
-
-        return queryBuilder.toString();
+        return "\n\n\nSelected Distribution: " + selectedDistro + "\n" +
+                "Selected Kernel: " + selectedKernel + "\n" +
+                "Selected GPU: " + selectedGPU + "\n" +
+                "Selected Display Server: " + selectedDisplayServer + "\n" +
+                "Selected Desktop Environment: " + selectedDesktopEnvironment + "\n" +
+                "Selected Login Manager: " + selectedLoginManager + "\n" +
+                "Selected Window Manager: " + selectedWindowManager + "\n" +
+                "Selected Packages: " + selectedPackages + "\n" +
+                "Selected Firewall: " + selectedFirewall + "\n";
     }
 
     private void processQuery(String query) {
+        String model = prefs.getPrefString("pref_key_model", "not set");
         showProgressBar();
-        showTimeDialog();
+        showTimeDialog(model);
         MainActivity.backgroundExecutorService.execute(() -> {
             Message userMsg = new Message(Author.User, query);
             chat.addMessage(userMsg);
 
             String apiToken = prefs.getApiToken();
-            ChatGpt chatGpt = new ChatGpt(apiToken);
+            ChatGpt chatGpt = new ChatGpt(apiToken, model);
             String answer = chatGpt.getChatCompletion(chat);
 
             Message answerMsg = new Message(Author.Assistant, answer);
@@ -136,7 +128,9 @@ public class MainFragment extends Fragment {
 
 
     private String getQueryInstructions() {
-        String customInstructions = "Generate a detailed set of Linux installation instructions and, if the selected distribution is Arch Linux, include a post-installation script. The user's preferences will be specified in the following format:\n" +
+        return "Generate a detailed set of Linux installation instructions and, " +
+                "if the selected distribution is Arch Linux, include a post-installation script. " +
+                "The user's preferences will be specified in the following format:\n" +
                 "\n" +
                 "Selected Distribution: <distribution_name>\n" +
                 "Selected Kernel: <kernel_type>\n" +
@@ -147,21 +141,22 @@ public class MainFragment extends Fragment {
                 "Window Manager: <window_manager>\n" +
                 "Software Packages: <list_of_software_packages>\n" +
                 "Firewall: <firewall_type>\n" +
-                "Autostart Settings: <autostart_settings>\n" +
                 "\n" +
-                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. Also, include instructions for installing the specified software packages and configuring the firewall." +
-                "For Arch Linux, generate a script for post-installation tasks reflecting the chosen options, so that everything that can be installed after installing arch itself, will be installed and set up with said post install script. The instructions need to be detailled, the script need to be safe.\n" +
+                "Based on these preferences, provide a comprehensive guide for installing the specified Linux distribution. " +
+                "Include steps for setting up the selected kernel, GPU drivers, display server, desktop environment, and window manager. " +
+                "Also, include instructions for installing the specified software packages and configuring the firewall." +
+                "For Arch Linux, generate a script for post-installation tasks reflecting the chosen options, " +
+                "so that everything that can be installed after installing arch itself, will be installed and set up with said post install script. " +
+                "The instructions need to be detailled, the script need to be safe.\n" +
                 "Make sure, every step listed in my formatted configuration will be mentioned and explained." +
                 "Format your response nicely with headings and whatever you think seems suitable" +
                 "The next part of this query will be the selected configuration. Read it like described above.";
-        return customInstructions;
     }
 
     // Move to PrefsFacade
     private String getSelectedDistribution() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String selectedDistro = sharedPref.getString("pref_key_distribution", "arch");
-        String customDistro = sharedPref.getString("pref_key_custom_distribution", "");
+        String selectedDistro = prefs.getPrefString("pref_key_distribution", "arch");
+        String customDistro = prefs.getPrefString("pref_key_custom_distribution", "");
 
         if (customDistro.isEmpty()) {
             return selectedDistro;
@@ -169,19 +164,11 @@ public class MainFragment extends Fragment {
         return customDistro;
     }
 
-    private String getSelectedValueFor(String key, String defaultValue) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String valueForKey = sharedPref.getString(key, defaultValue);
-
-        return valueForKey;
-    }
 
     private String getSelectedPackages() {
         StringBuilder concatenateString = new StringBuilder();
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        Set<String> selectedPackages = sharedPref.getStringSet("pref_key_packages", new HashSet<>());
-        String selectedPackagesString;
+        Set<String> selectedPackages = prefs.getStringSet("pref_key_packages", new HashSet<>());
 
         for (String pkg : selectedPackages) {
             concatenateString.append(pkg).append(", ");
@@ -195,20 +182,9 @@ public class MainFragment extends Fragment {
         return concatenateString.toString();
     }
 
-    private void applyLanguageSetting() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String languageCode = prefs.getString("pref_key_language", "default"); // default is your default language code
-        setLocale(languageCode);
-    }
 
-    private void setLocale(String languageCode) {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Resources resources = getContext().getResources();
-        Configuration config = resources.getConfiguration();
-        config.locale = locale;
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-    }
+
+
 
     // Remove
     @Override
@@ -260,17 +236,22 @@ public class MainFragment extends Fragment {
         return getView().findViewById(R.id.btn_config);
     }
 
+    private ProgressBar getProgressBar() {
+        //noinspection ConstantConditions
+        return getView().findViewById(R.id.progressBar);
+    }
+
     private void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        getProgressBar().setVisibility(View.VISIBLE);
 }
 
     private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        getProgressBar().setVisibility(View.GONE);
     }
-    private void showTimeDialog() {
+    private void showTimeDialog(String model) {
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.alert_time)
-                .setMessage(R.string.alert_time_message)
+                .setMessage(R.string.alert_time_message + "\nUsing " + model)
                 .setNeutralButton("Okay", null)
                 .show();
     }
