@@ -5,28 +5,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.preference.MultiSelectListPreference;
-import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
@@ -132,7 +126,7 @@ public class MainFragment extends Fragment {
                         getTextView().append(CHAT_SEPARATOR);
                     }
                     //getTextView().append(toString(answerMsg));
-                    displayResponseAsMarkdown(answerMsg.message);
+                    renderTextAsMarkdown(answerMsg.message);
                     //ScrollView scrollView = getScrollView();
                     //scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
                 });
@@ -202,9 +196,9 @@ public class MainFragment extends Fragment {
     }
 
     private void applyLanguageSetting() {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-    String languageCode = prefs.getString("pref_key_language", "default"); // default is your default language code
-    setLocale(languageCode);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String languageCode = prefs.getString("pref_key_language", "default"); // default is your default language code
+        setLocale(languageCode);
     }
 
     private void setLocale(String languageCode) {
@@ -256,11 +250,6 @@ public class MainFragment extends Fragment {
         return getView().findViewById(R.id.textView);
     }
 
-    private ScrollView getScrollView() {
-        //noinspection ConstantConditions
-        return getView().findViewById(R.id.scrollView);
-    }
-
     private Button getGenerateButton() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.btn_generate);
@@ -286,7 +275,7 @@ public class MainFragment extends Fragment {
                 .show();
     }
 
-    private void displayResponseAsMarkdown(String markdownText) {
+    private void renderTextAsMarkdown(String markdownText) {
         TextView textView = getTextView();
         Markwon mw = Markwon.create(requireContext());
 
