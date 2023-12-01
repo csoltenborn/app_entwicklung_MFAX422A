@@ -119,50 +119,38 @@ public class MainFragment extends Fragment {
         updateTextView();
     }
 
-    /*
-     * Die Methode processImage(Uri imageUri) verarbeitet ein ausgewähltes Bild, um den enthaltenen Text zu extrahieren und mit ChatGPT zu kommunizieren.
-     */
+
     private void processImage(Uri imageUri) {
         try {
-            // Das ausgewählte Bild wird in ein Bitmap umgewandelt.
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
 
-            // Ein FirebaseVisionImage wird aus dem Bitmap erstellt.
             FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(bitmap);
 
-            // Ein TextRecognizer von Firebase Vision wird initialisiert.
             FirebaseVisionTextRecognizer textRecognizer = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
 
-            // Der TextRecognizer verarbeitet das Bild, und das Ergebnis wird in einem Task gespeichert.
+
             Task<FirebaseVisionText> result = textRecognizer.processImage(firebaseVisionImage);
 
             result.addOnSuccessListener(firebaseVisionText -> {
-                // Der extrahierte Text wird abgerufen und als Benutzer-Nachricht hinzugefügt.
                 String extractedText = firebaseVisionText.getText();
                 Message imageMessage = new Message(Author.User, "Text: \n" + extractedText);
                 chat.addMessage(imageMessage);
 
-                // Falls bereits Nachrichten vorhanden sind, wird ein Trennstrich hinzugefügt.
                 if (chat.getMessages().size() > 1) {
                     getTextView().append(CHAT_SEPARATOR);
                 }
 
-                // Die Benutzer-Nachricht wird zur Anzeige hinzugefügt.
                 getTextView().append(toString(imageMessage));
                 scrollToEnd();
 
-                // Ein Hintergrund-Thread wird gestartet, um mit ChatGPT zu kommunizieren.
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    // Ein API-Token für die ChatGPT-Kommunikation wird definiert.
                     String apiToken = prefs.getApiToken();
                     ChatGpt chatGpt = new ChatGpt(apiToken);
 
-                    // Die Kommunikation mit ChatGPT erfolgt, und die Antwort wird als ChatGPT-Nachricht hinzugefügt.
                     String answer = chatGpt.getChatCompletion(chat);
                     Message answerMessage = new Message(Author.Assistant, "ChatGPT: \n" + answer);
                     chat.addMessage(answerMessage);
 
-                    // Die Antwort von ChatGPT wird zur Anzeige hinzugefügt, gescrollt und vorgelesen.
                     MainActivity.uiThreadHandler.post(() -> {
                         getTextView().append(CHAT_SEPARATOR);
                         getTextView().append(toString(answerMessage));
@@ -173,7 +161,6 @@ public class MainFragment extends Fragment {
             });
 
         } catch (Exception e) {
-            // Im Falle einer Ausnahme wird die Fehlermeldung ausgegeben.
             e.printStackTrace();
         }
     }
