@@ -1,5 +1,37 @@
 <resources>
-    <string name="app_name" translatable="false">ChatGpt</string>
-    <string name="ask">Ask</string>
+    <string name="app_name" translatable="false">DistroTailor</string>
     <string name="settings">Settings</string>
+    <string name="section_distro" translatable="false">Distribution</string>
+    <string name="section_kernel" translatable="false">Kernel</string>
+    <string name="section_gpu">GPU Selection</string>
+    <string name="section_display_server" translatable="false">Display Server</string>
+    <string name="section_DE">Desktop Environment</string>
+    <string name="section_login_manager" translatable="false">Login Manager</string>
+    <string name="section_WM" translatable="false">Window Manager</string>
+    <string name="section_packages">Packages</string>
+    <string name="section_firewall" translatable="false">Firewall</string>
+    <string name="section_autostart" translatable="false">Autostart</string>
+    <string name="section_partitioning">Partitioning</string>
+    <string name="prefs_distro_title">Select a distribution</string>
+    <string name="prefs_distro_custom_title">Enter custom distribution name</string>
+    <string name="prefs_kernel_title">Select Kernel</string>
+    <string name="prefs_gpu_title">Select GPU Manufacturer</string>
+    <string name="prefs_display_server_title">Select Display Server</string>
+    <string name="prefs_desktop_environment_title">Select DE</string>
+    <string name="prefs_login_manager_title">Select Login Manager</string>
+    <string name="pref_window_manager_title">Select Window Manager</string>
+    <string name="pref_packages_title">Select packages</string>
+    <string name="pref_firewall_title">Select firewall(s)</string>
+    <string name="btn_generate_title">Generate</string>
+    <string name="btn_config_title">Configure</string>
+    <string name="pref_screen_app_settings_title">App Settings</string>
+    <string name="pref_screen_config_title">Config</string>
+    <string name="prefs_language">Language</string>
+    <string name="restart_required_title">Restart required</string>
+    <string name="restart_required_message">To apply these settings, restart the app!</string>
+    <string name="restart_now">restart now</string>
+    <string name="later">later</string>
+    <string name="alert_time">Attention</string>
+    <string name="alert_time_message">This could take a while</string>
+    <string name="pref_model_title" translatable="false">GPT-Model</string>
 </resources>

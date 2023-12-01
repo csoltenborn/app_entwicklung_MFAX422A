@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ask">Fragen</string>
     <string name="settings">Einstellungen</string>
+    <string name="section_gpu">GPU Auswahl</string>
+    <string name="section_DE">Desktop Umgebung</string>
+    <string name="section_packages">Pakete</string>
+    <string name="section_partitioning">Partitionierung</string>
+    <string name="prefs_distro_title">Wähle eine Distribution</string>
+    <string name="prefs_distro_custom_title">Gebe Name der Distribution ein</string>
+    <string name="prefs_kernel_title">Wähle den Kernel</string>
+    <string name="prefs_gpu_title">Wähle GPU Hersteller</string>
+    <string name="prefs_display_server_title">Wähle Display Server</string>
+    <string name="prefs_desktop_environment_title">Wähle Desktop Umgebung</string>
+    <string name="prefs_login_manager_title">Wähle Login Manager</string>
+    <string name="pref_window_manager_title">Wähle Window Manager</string>
+    <string name="pref_firewall_title">Wähle Firewall(s)</string>
+    <string name="pref_packages_title">Wähle Pakete</string>
+    <string name="btn_generate_title">Ausführen</string>
+    <string name="btn_config_title">Konfigurieren</string>
+    <string name="pref_screen_app_settings_title">App Einstellungen</string>
+    <string name="pref_screen_config_title">Konfiguration</string>
+    <string name="prefs_language">Sprache</string>
+    <string name="restart_required_title">Neustart erforderlich</string>
+    <string name="restart_required_message">Starte die App neu, um diese Einstellungen anzuwenden!</string>
+    <string name="restart_now">jetzt neustarten</string>
+    <string name="later">später</string>
+    <string name="alert_time">Achtung</string>
+    <string name="alert_time_message">Dies kann einen Moment dauern</string>
 </resources>
