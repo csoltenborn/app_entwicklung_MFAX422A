@@ -12,9 +12,9 @@
     <string name="api_token">API token</string>
     <string name="openai_model">OpenAI model</string>
     <string name="title_activity_login">LarsGPT</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Email oder Nutzername</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Willkommen "</string>
     <string name="invalid_username">Not a valid username</string>
