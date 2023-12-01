@@ -11,12 +11,12 @@
     <string name="api_configuration">API configuration</string>
     <string name="api_token">API token</string>
     <string name="openai_model">OpenAI model</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">LarsGPT</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">"Willkommen "</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >3 characters</string>
     <string name="login_failed">"Login failed"</string>

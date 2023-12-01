@@ -26,24 +26,17 @@ public class LoginDataSource {
     public Result<LoggedInUser> login(String username, String password) {
 
         try {
-            /*LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randoamUUID().toString(),
-                            username);
-            return new Result.Success<>(fakeUser);*/
-            // TODO: handle loggedInUser authentication
-
 
             //String check = PreferenceManager.getDefaultSharedPreferences(context).getString("app_password", "1234");
 
             String check = "debug"; // no access to context
 
-            if (password.equals("1234") || password.equals(check)) {
-                LoggedInUser fakeUser =
+            if (password.equals(check)) {
+                LoggedInUser currentUser =
                         new LoggedInUser(
                                 java.util.UUID.randomUUID().toString(),
                                 username);
-                return new Result.Success<>(fakeUser);
+                return new Result.Success<>(currentUser);
             } else {
                 return new Result.Error(new IOException("Password Falsch"));
             }
