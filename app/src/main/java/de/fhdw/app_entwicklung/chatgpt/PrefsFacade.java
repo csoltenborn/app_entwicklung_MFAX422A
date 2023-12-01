@@ -52,6 +52,15 @@ public class PrefsFacade {
                 throw new RuntimeException("Speaking style not supported: " + style);
         }
     }
+    public String getUserClass() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("UserClass", "None");
+    }
+    public String getName() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("Name", "None");
+    }
+    public String getGender() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("Gender", "");
+    }
 
     public String getModel() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("model_type", "gpt-3.5-turbo");

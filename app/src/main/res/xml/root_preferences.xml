@@ -10,23 +10,36 @@
             app:key="language"
             app:title="@string/language"
             app:useSimpleSummaryProvider="true" />
-        <ListPreference
-            android:defaultValue="neutral"
-            android:entries="@array/speaking_style_entries"
-            android:entryValues="@array/speaking_style_values"
-            android:key="speaking_style"
-            android:title="@string/style_of_speaking"
-            app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
-            android:key="custom_speaking_style"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="@string/custom_style_of_speaking"
-            app:useSimpleSummaryProvider="true" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="read_out_loud"
             android:title="@string/read_chatgpt_s_answer_out_loud" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="Name"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Name"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="neutral"
+            android:entries="@array/Userclass"
+            android:entryValues="@array/Userclass"
+            android:key="UserClass"
+            android:title="@string/Userclass"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="none"
+            android:entries="@array/gender"
+            android:entryValues="@array/gender"
+            android:key="Gender"
+            android:title="@string/gender"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 

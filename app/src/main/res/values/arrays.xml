@@ -10,6 +10,26 @@
         <item>en</item>
     </string-array>
 
+    <string-array name="Userclass">
+        <item>Barbarian</item>
+        <item>Bard</item>
+        <item>Cleric</item>
+        <item>Druid</item>
+        <item>Fighter</item>
+        <item>Monk</item>
+        <item>Paladin</item>
+        <item>Ranger</item>
+        <item>Rouge</item>
+        <item>Sorcerer</item>
+        <item>Warlock</item>
+        <item>Wizard</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
     <!-- Speaking styles -->
     <string-array name="speaking_style_entries">
         <item>Neutral</item>
