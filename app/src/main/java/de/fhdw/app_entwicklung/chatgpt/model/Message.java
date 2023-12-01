@@ -30,7 +30,9 @@ public class Message implements Parcelable {
         dest.writeString(author.name());
         dest.writeString(message);
     }
-
+    public boolean isPrintable(){
+        return author != Author.System;
+    }
     @Override
     public int describeContents() {
         return 0;

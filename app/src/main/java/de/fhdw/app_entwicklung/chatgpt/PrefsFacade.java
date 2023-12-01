@@ -16,5 +16,11 @@ public class PrefsFacade {
     public String getApiToken() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("api_token", "");
     }
+    public String getEmailTo() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("emailTo", "");
+    }
+    public String getEmailAuthor() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("emailAuthor", "");
+    }
 
 }
