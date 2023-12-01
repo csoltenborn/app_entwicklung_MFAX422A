@@ -14,9 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
@@ -59,7 +57,6 @@ public class MainFragment extends Fragment {
 
             getTextView().append("Configuration Request Details" +
                     generateQueryFromSettings());
-            //processQuery("Write a simple markdown example template with heading and stuff");
         });
 
         getConfigureButton().setOnClickListener(v -> {
@@ -71,14 +68,14 @@ public class MainFragment extends Fragment {
     }
 
     private String generateQueryFromSettings() {
-        String selectedDistro = getSelectedDistribution();
+        String selectedDistro = prefs.getSelectedDistribution();
         String selectedKernel = prefs.getPrefString("pref_key_kernel", "main");
         String selectedGPU = prefs.getPrefString("pref_key_gpu", "nvidia");
         String selectedDisplayServer = prefs.getPrefString("pref_key_display_server", "wayland");
         String selectedDesktopEnvironment = prefs.getPrefString("pref_key_desktop_environment", "none");
         String selectedLoginManager = prefs.getPrefString("pref_key_login_manager", "ly");
         String selectedWindowManager = prefs.getPrefString("pref_key_window_manager", "hyprland");
-        String selectedPackages = getSelectedPackages();
+        String selectedPackages = prefs.getSelectedPackages();
         String selectedFirewall = prefs.getPrefString("pref_key_firewall", "none");
 
 
@@ -108,7 +105,6 @@ public class MainFragment extends Fragment {
             Message answerMsg = new Message(Author.Assistant, answer);
             chat.addMessage(answerMsg);
 
-            // Use runOnUiThread for UI updates
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     hideProgressBar();
@@ -116,8 +112,6 @@ public class MainFragment extends Fragment {
                         getTextView().append(CHAT_SEPARATOR);
                     }
                     renderTextAsMarkdown(answerMsg.message);
-                    //ScrollView scrollView = getScrollView();
-                    //scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
                 });
             }
         });
@@ -150,40 +144,7 @@ public class MainFragment extends Fragment {
                 "The next part of this query will be the selected configuration. Read it like described above.";
     }
 
-    // Move to PrefsFacade
-    private String getSelectedDistribution() {
-        String selectedDistro = prefs.getPrefString("pref_key_distribution", "arch");
-        String customDistro = prefs.getPrefString("pref_key_custom_distribution", "");
 
-        if (customDistro.isEmpty()) {
-            return selectedDistro;
-        }
-        return customDistro;
-    }
-
-
-    private String getSelectedPackages() {
-        StringBuilder concatenateString = new StringBuilder();
-
-        Set<String> selectedPackages = prefs.getStringSet("pref_key_packages", new HashSet<>());
-
-        for (String pkg : selectedPackages) {
-            concatenateString.append(pkg).append(", ");
-        }
-
-        if (!selectedPackages.isEmpty()) {
-            concatenateString.delete(concatenateString.length() - 2, concatenateString.length());
-        }
-
-        // Convert Set to array for String.join()
-        return concatenateString.toString();
-    }
-
-
-
-
-
-    // Remove
     @Override
     public void onPause() {
         super.onPause();
@@ -248,7 +209,7 @@ public class MainFragment extends Fragment {
     private void showTimeDialog(String model) {
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.alert_time)
-                .setMessage(R.string.alert_time_message + "\nUsing " + model)
+                .setMessage("This could take a while..." + "\nUsing " + model)
                 .setNeutralButton("Okay", null)
                 .show();
     }
