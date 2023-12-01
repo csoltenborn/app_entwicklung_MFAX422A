@@ -60,12 +60,11 @@ public class MainFragment extends Fragment {
                         getTextView().append(toString(answerMessage));
                         scrollToEnd();
 
-                        //Für einstellung ob es gesagt+geschriben oder nur geschriben werden soll
+
                         if (prefs.speakOutLoud()) {
-                            // Setze die Sprache in der TextToSpeechTool-Klasse
+
                             textToSpeech.setLanguage(prefs.getLocale());
 
-                            // Führe die Sprachausgabe durch
                             textToSpeech.speak(answer);
 
                         }
@@ -90,15 +89,14 @@ public class MainFragment extends Fragment {
 
         prefs = new PrefsFacade(requireContext());
 
+
         getContext().getResources().getConfiguration().setLocale(prefs.getLocale());
 
         Locale.setDefault(prefs.getLocale());
         Log.i("Test Main", Locale.getDefault()+"");
-        //Gerätstandart Sprache als Sprache aus wählen
-        //prefs = new PrefsFacade(requireContext());
+
         textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
 
-        //New
         getAskButton().setOnClickListener(v ->
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
 
@@ -109,7 +107,6 @@ public class MainFragment extends Fragment {
         }
 
         getAskButton().setOnClickListener(v ->
-                //Gerätstandart Sprache als Sprache aus wählen
                 getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
             textToSpeech.stop();

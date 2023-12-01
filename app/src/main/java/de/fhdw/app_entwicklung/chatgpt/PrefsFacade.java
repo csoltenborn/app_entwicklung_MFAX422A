@@ -14,17 +14,16 @@ public class PrefsFacade {
     public PrefsFacade(@NonNull Context context) {
         this.context = context;
     }
-    //                                                                              api Key übergeben
+
     public String getApiToken() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("api_token", "");
     }
 
-    //Hinzufügen von der Auswahl speakOutLoud
+
     public boolean speakOutLoud() {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("read_out_loud", true);
     }
 
-    //Hinzufügen der auswahl der Sprachen
     public Locale getLocale() {
         String language = PreferenceManager.getDefaultSharedPreferences(context).getString("language", "en");
         switch (language) {
@@ -43,7 +42,6 @@ public class PrefsFacade {
         }
     }
 
-    //version übergabe defValue auf gpt-3.5 gesetzt
     public String getModel() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("model_type", "gpt-3.5");
     }
