@@ -13,42 +13,42 @@ Standartgemäß ist ChatGpt4. Die Buttons haben ein Unicode als inhalt bekommen 
 
 # Umsetzung:
 ## Spracheinstellungen:
-### 1.Auswahl der Sprache:
+1.Auswahl der Sprache:
   -Benutzer können nun in den Einstellungen eine Sprache auswählen.
   -Die Standard-Sprache entspricht der Gerätesprache.
   -Eine Liste von verfügbaren Sprachen wird angezeigt, und Benutzer können ihre Auswahl über Radio Buttons treffen.
   
-### 2.Text-to-Speech (TTS):
+2.Text-to-Speech (TTS):
   -Benutzer haben die Möglichkeit, die TTS-Funktion ein- oder auszuschalten.
   -Die TTS-Sprache wird ebenfalls basierend auf der ausgewählten Sprache festgelegt.
   
 ## ChatGpt-Version:
-### 1. API-Version ändern:
+API-Version ändern:
   -Benutzer können in den Einstellungen die Version von ChatGpt über einen Radio Button auswählen.
   -Der API-Schlüssel kann weiterhin übergeben werden.
   
 ## Reset-Button:
-### 1. Stoppen der TTS:
+Stoppen der TTS:
   -Der Reset-Button kann jetzt auch die TTS stoppen.
 
 ##UI-Elemente:
-### 1. Unicode-Symbole:
+Unicode-Symbole:
   -Sie haben Unicode-Symbole für verschiedene Buttons hinzugefügt, um die Bedeutung klarer zu machen.
 
 ## Code-Snippets:
-### 1. Initialisierung von ChatGpt:
+1. Initialisierung von ChatGpt:
   -Die ChatGpt-Klasse wird mit dem API-Token initialisiert.
-### 1. Spracheinstellungen in der App:
+2. Spracheinstellungen in der App:
   -Die App-Konfiguration wird auf die ausgewählte Sprache eingestellt.
   -Die Sprache wird auch für die Text-to-Speech-Funktion festgelegt.
-### 3. Sprache ändern in den Einstellungen:
+3. Sprache ändern in den Einstellungen:
   -Die ausgewählte Sprache kann direkt in den Einstellungen geändert werden.
   -Bei Änderung wird die App neu gestartet, um die Spracheffekte zu übernehmen.
   
-### 4. Einstellungen in der XML-Datei:
+4. Einstellungen in der XML-Datei:
   -XML-Dateien werden aktualisiert, um die neuen Einstellungen und Symbole zu berücksichtigen.
   
-## 5.Gradle-Dateien:
+5.Gradle-Dateien:
   -Die Versionsnummer der Android-Gradle-Plugin wurde auf 8.1.2 aktualisiert.
 
 ## API-Version in ChatGpt:
