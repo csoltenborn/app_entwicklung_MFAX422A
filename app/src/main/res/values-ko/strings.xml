@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ask">질문</string>
+    <string name="settings">설정 </string>
+    <string name="reset">리셋 </string>
+
+    <string name="language">언어 </string>
+    <string name="read_chatgpt_s_answer_out_loud">답변 읽어 주기</string>
+    <string name="ChatGpt_Version">버전</string>
+</resources>

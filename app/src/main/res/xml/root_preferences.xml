@@ -1,13 +1,35 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory app:title="@string/language">
+    <ListPreference
+        app:defaultValue="en"
+        app:entries="@array/language_entries"
+        app:entryValues="@array/language_values"
+        app:key="language"
+        app:title="@string/language"
+        app:useSimpleSummaryProvider="true" />
+
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="read_out_loud"
+        android:title="@string/read_chatgpt_s_answer_out_loud" />
+
+</PreferenceCategory>
 
     <PreferenceCategory app:title="API">
-
         <EditTextPreference
             app:key="api_token"
             app:title="API Token"
-            app:defaultValue="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"
+            app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            android:defaultValue="GPT 3.5"
+            android:entries="@array/model_type_entries"
+            android:entryValues="@array/model_type_values"
+            app:key="ChatGpt_Version"
+            android:title="@string/ChatGpt_Version"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

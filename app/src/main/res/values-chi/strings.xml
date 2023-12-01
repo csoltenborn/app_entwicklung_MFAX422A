@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ask">问题</string>
+    <string name="settings">设置 </string>
+    <string name="reset">重置</string>
+
+    <string name="language">语言</string>
+    <string name="read_chatgpt_s_answer_out_loud">朗读ChatGPT的回答</string>
+    <string name="ChatGpt_Version">ChatGPT版本</string>
+</resources>

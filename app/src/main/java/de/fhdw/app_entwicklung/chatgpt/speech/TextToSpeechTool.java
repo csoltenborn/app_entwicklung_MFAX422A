@@ -53,4 +53,14 @@ public class TextToSpeechTool implements TextToSpeech.OnInitListener{
         }
     }
 
+    public void setLanguage(Locale locale) {
+        if (ttsAvailable) {
+            int result = textToSpeech.setLanguage(locale);
+            if (result == TextToSpeech.LANG_MISSING_DATA) {
+                Log.e("error", "TTS: Language data is missing.");
+            } else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("error", "TTS: Language is not supported.");
+            }
+        }
+    }
 }

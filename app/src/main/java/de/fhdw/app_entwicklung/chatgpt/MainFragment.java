@@ -1,6 +1,9 @@
 package de.fhdw.app_entwicklung.chatgpt;
 
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import java.util.List;
 import java.util.Locale;
@@ -19,8 +23,7 @@ import java.util.Locale;
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
-import de.fhdw.app_entwicklung.chatgpt.openai.IChatGpt;
-import de.fhdw.app_entwicklung.chatgpt.openai.MockChatGpt;
+import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
@@ -46,7 +49,7 @@ public class MainFragment extends Fragment {
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
-                    IChatGpt chatGpt = new MockChatGpt(apiToken);
+                    ChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
@@ -56,7 +59,15 @@ public class MainFragment extends Fragment {
                         getTextView().append(CHAT_SEPARATOR);
                         getTextView().append(toString(answerMessage));
                         scrollToEnd();
-                        textToSpeech.speak(answer);
+
+
+                        if (prefs.speakOutLoud()) {
+
+                            textToSpeech.setLanguage(prefs.getLocale());
+
+                            textToSpeech.speak(answer);
+
+                        }
                     });
                 });
             });
@@ -67,23 +78,38 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+                return inflater.inflate(R.layout.fragment_main, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         prefs = new PrefsFacade(requireContext());
-        textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
+
+
+        getContext().getResources().getConfiguration().setLocale(prefs.getLocale());
+
+        Locale.setDefault(prefs.getLocale());
+        Log.i("Test Main", Locale.getDefault()+"");
+
+        textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
+
+        getAskButton().setOnClickListener(v ->
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
+
+
         chat = new Chat();
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
         }
 
         getAskButton().setOnClickListener(v ->
-                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
+            textToSpeech.stop();
             chat = new Chat();
             updateTextView();
         });
