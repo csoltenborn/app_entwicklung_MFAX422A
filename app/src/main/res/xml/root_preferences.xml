@@ -1,11 +1,25 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="API">
-
+    <PreferenceCategory
+        app:title="API">
         <EditTextPreference
+            app:defaultValue=""
             app:key="api_token"
             app:title="API Token"
-            app:defaultValue="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"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="EMAIL">
+
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="emailTo"
+            app:title="EMAIL-TO"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="emailAuthor"
+            app:title="Name"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

@@ -21,7 +21,7 @@ public class ChatGpt implements IChatGpt {
 
     private final String apiToken;
 
-    public ChatGpt(String apiToken) {
+    public ChatGpt(String apiToken){
         this.apiToken = apiToken;
     }
 
@@ -55,7 +55,7 @@ public class ChatGpt implements IChatGpt {
 
     @NonNull
     private ChatMessage toChatMessage(@NonNull Message message) {
-        return new ChatMessage(toRole(message.author).value(), message.message);
+        return new ChatMessage(toRole(message.author).value(),message.message);
     }
 
     private ChatMessageRole toRole(Author author) {
