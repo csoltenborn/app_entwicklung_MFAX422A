@@ -3,4 +3,7 @@
     <string name="ask">Ask</string>
     <string name="settings">Settings</string>
     <string name="reset">Reset</string>
+    <string name="translator_app">Translator App</string>
+    <string name="language">Language</string>
+    <string name="chatgpt_language">Output Language</string>
 </resources>

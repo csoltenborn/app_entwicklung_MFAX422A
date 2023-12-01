@@ -1,2 +1,30 @@
 <resources>
+    
+    <string-array name="language_entries">
+        <item>German</item>
+        <item>English</item>
+        <item>Italian</item>
+        <item>French</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>de</item>
+        <item>en</item>
+        <item>ita</item>
+        <item>franc</item>
+    </string-array>
+
+    <string-array name="chatgpt_language_entries">
+        <item>German</item>
+        <item>English</item>
+        <item>Italian</item>
+        <item>French</item>
+    </string-array>
+
+    <string-array name="chatgpt_language_values">
+        <item>German</item>
+        <item>English</item>
+        <item>Italian</item>
+        <item>French</item>
+    </string-array>
 </resources>

@@ -14,13 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 import de.fhdw.app_entwicklung.chatgpt.model.Author;
 import de.fhdw.app_entwicklung.chatgpt.model.Chat;
 import de.fhdw.app_entwicklung.chatgpt.model.Message;
+import de.fhdw.app_entwicklung.chatgpt.openai.ChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.openai.IChatGpt;
-import de.fhdw.app_entwicklung.chatgpt.openai.MockChatGpt;
 import de.fhdw.app_entwicklung.chatgpt.speech.LaunchSpeechRecognition;
 import de.fhdw.app_entwicklung.chatgpt.speech.TextToSpeechTool;
 
@@ -36,7 +36,8 @@ public class MainFragment extends Fragment {
     private final ActivityResultLauncher<LaunchSpeechRecognition.SpeechRecognitionArgs> getTextFromSpeech = registerForActivityResult(
             new LaunchSpeechRecognition(),
             query -> {
-                Message userMessage = new Message(Author.User, query);
+                Message userMessage = new Message(Author.User,  query);
+                chat.addMessage(new Message(Author.System, prefs.getChatgptLanguage()));
                 chat.addMessage(userMessage);
                 if (chat.getMessages().size() > 1) {
                     getTextView().append(CHAT_SEPARATOR);
@@ -46,7 +47,7 @@ public class MainFragment extends Fragment {
 
                 MainActivity.backgroundExecutorService.execute(() -> {
                     String apiToken = prefs.getApiToken();
-                    IChatGpt chatGpt = new MockChatGpt(apiToken);
+                    IChatGpt chatGpt = new ChatGpt(apiToken);
                     String answer = chatGpt.getChatCompletion(chat);
 
                     Message answerMessage = new Message(Author.Assistant, answer);
@@ -75,17 +76,20 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         prefs = new PrefsFacade(requireContext());
-        textToSpeech = new TextToSpeechTool(requireContext(), Locale.GERMAN);
+        textToSpeech = new TextToSpeechTool(requireContext(), prefs.getLocale());
         chat = new Chat();
         if (savedInstanceState != null) {
             chat = savedInstanceState.getParcelable(EXTRA_DATA_CHAT);
+        } else {
+            chat = createNewChat();
         }
 
         getAskButton().setOnClickListener(v ->
-                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(Locale.GERMAN)));
+                getTextFromSpeech.launch(new LaunchSpeechRecognition.SpeechRecognitionArgs(prefs.getLocale())));
         getResetButton().setOnClickListener(v -> {
-            chat = new Chat();
+            chat = createNewChat();
             updateTextView();
+
         });
         updateTextView();
     }
@@ -111,9 +115,9 @@ public class MainFragment extends Fragment {
         super.onDestroy();
     }
 
-    private void updateTextView() {
+    public void updateTextView() {
         getTextView().setText("");
-        List<Message> messages = chat.getMessages();
+        List<Message> messages = chat.getMessages().stream().filter(message -> message.author != Author.System).collect(Collectors.toList());
         if (!messages.isEmpty()) {
             getTextView().append(toString(messages.get(0)));
             for (int i = 1; i < messages.size(); i++) {
@@ -132,6 +136,11 @@ public class MainFragment extends Fragment {
         return message.message;
     }
 
+
+    private Chat createNewChat() {
+        Chat chat = new Chat();
+        return chat;
+    }
     private TextView getTextView() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.textView);
@@ -150,6 +159,12 @@ public class MainFragment extends Fragment {
     private ScrollView getScrollView() {
         //noinspection ConstantConditions
         return getView().findViewById(R.id.scrollview);
+    }
+    public void resetChat(){
+        getResetButton().setOnClickListener(v -> {
+            chat = createNewChat();
+            updateTextView();
+        });
     }
 
 }
