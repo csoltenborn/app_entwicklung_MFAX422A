@@ -45,9 +45,7 @@ public class MainFragment extends Fragment {
                 updateProgressBar(10);
 
                 MainActivity.backgroundExecutorService.execute(() -> {
-                    // PR
-                    String apiToken = prefs.getChatGPTApiToken();
-                    ChatGpt chatGpt = new ChatGpt(apiToken);
+                    ChatGpt chatGpt = new ChatGpt(prefs.getChatGPTApiToken());
                     String answer = chatGpt.getChatCompletion(chat);
                     updateProgressBar(60);
 

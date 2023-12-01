@@ -55,7 +55,6 @@ public class ChatGpt implements IChatGpt {
 
     @NonNull
     private ChatMessage toChatMessage(@NonNull Message message) {
-        // PR
         return new ChatMessage(toRole(message.author).value(), addPrefix(message));
     }
 
