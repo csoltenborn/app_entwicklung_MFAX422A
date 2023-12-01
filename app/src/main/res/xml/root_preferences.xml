@@ -1,13 +1,52 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="API">
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="ChatGPT">
+
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="1"
+            android:title="@string/textLength"
+            app:entries="@array/text_length"
+            app:entryValues="@array/text_length_values"
+            app:key="textLength" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/weather">
 
         <EditTextPreference
-            app:key="api_token"
-            app:title="API Token"
-            app:defaultValue="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"
-            app:useSimpleSummaryProvider="true" />
+            android:title="@string/city"
+            android:key="city"
+            android:defaultValue=""
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:useSimpleSummaryProvider="true"
+            android:selectAllOnFocus="true" />
+    </PreferenceCategory>
 
+    <PreferenceCategory app:title="API">
+        <EditTextPreference
+            android:title="ChatGPT API Key"
+            android:key="gpt_api_token"
+            android:defaultValue=""
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:useSimpleSummaryProvider="true"
+            android:selectAllOnFocus="true" />
+        <EditTextPreference
+            android:title="Open Weather API Key"
+            android:key="weather_api_token"
+            android:defaultValue=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:useSimpleSummaryProvider="true"
+            android:selectAllOnFocus="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

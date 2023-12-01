@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">ChatGPT Wetter</string>
     <string name="ask">Fragen</string>
     <string name="settings">Einstellungen</string>
     <string name="reset">Reset</string>
+    <string name="weather">Wetter</string>
+    <string name="city">Stadt</string>
+    <string name="monday">Montag</string>
+    <string name="tuesday">Dienstag</string>
+    <string name="wednesday">Mittwoch</string>
+    <string name="thursday">Donnerstag</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Samstag</string>
+    <string name="sunday">Sonntag</string>
+    <string name="noWeatherData">Keine Wetter Daten verfügbar! Hast du in den Einstellungen den API key und deine Stadt gesetzt?</string>
+    <string name="textLength">Text Länge</string>
+    <string name="textShort">Kurz</string>
+    <string name="textNormal">Normal</string>
+    <string name="textLong">Lang</string>
+    <string name="assistant">Assistent</string>
+    <string name="user">Benutzer</string>
+    <string name="system">System</string>
 </resources>

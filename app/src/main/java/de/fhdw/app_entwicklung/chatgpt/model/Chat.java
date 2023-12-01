@@ -10,6 +10,7 @@ import java.util.List;
 public class Chat implements Parcelable {
 
     private final List<Message> messages = new ArrayList<>();
+    public boolean hasForcasted;
 
     public Chat() {
     }
@@ -24,6 +25,21 @@ public class Chat implements Parcelable {
 
     public List<Message> getMessages() {
         return Collections.unmodifiableList(messages);
+    }
+
+    public void reset() {
+        messages.clear();
+    }
+
+    /**
+     * @return True when any other message then {@link Author#User} are present
+     */
+    public boolean hasMessages() {
+        for (Message msg : messages) {
+            if (msg.author != Author.System)
+                return true;
+        }
+        return false;
     }
 
     @Override
