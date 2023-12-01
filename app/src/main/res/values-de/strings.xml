@@ -11,7 +11,7 @@
     <string name="wednesday">Mittwoch</string>
     <string name="thursday">Donnerstag</string>
     <string name="friday">Friday</string>
-    <string name="saturday">Samstage</string>
+    <string name="saturday">Samstag</string>
     <string name="sunday">Sonntag</string>
     <string name="noWeatherData">Keine Wetter Daten verfügbar! Hast du in den Einstellungen den API key und deine Stadt gesetzt?</string>
     <string name="textLength">Text Länge</string>

@@ -147,7 +147,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        /* ==== Load data when children have been created ==== */
+        /* ==== Load first chat/forecast when children have been created ==== */
         viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
