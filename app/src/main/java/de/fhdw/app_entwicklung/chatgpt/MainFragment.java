@@ -58,8 +58,6 @@ public class MainFragment extends Fragment {
             processQuery(query);
 
             getTextView().append("Configuration Request Details" +
-                    CHAT_SEPARATOR +
-                    getQueryInstructions() +
                     generateQueryFromSettings());
             //processQuery("Write a simple markdown example template with heading and stuff");
         });
@@ -96,7 +94,7 @@ public class MainFragment extends Fragment {
     }
 
     private void processQuery(String query) {
-        String model = prefs.getPrefString("pref_key_model", "not set");
+        String model = prefs.getPrefString("pref_key_model", "gpt-4");
         showProgressBar();
         showTimeDialog(model);
         MainActivity.backgroundExecutorService.execute(() -> {
@@ -117,7 +115,6 @@ public class MainFragment extends Fragment {
                     if (chat.getMessages().size() > 1) {
                         getTextView().append(CHAT_SEPARATOR);
                     }
-                    //getTextView().append(toString(answerMsg));
                     renderTextAsMarkdown(answerMsg.message);
                     //ScrollView scrollView = getScrollView();
                     //scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));

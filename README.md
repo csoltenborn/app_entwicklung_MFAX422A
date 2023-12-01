@@ -80,7 +80,6 @@ einfach angepasst und aktualisiert werden können.
 - packagesPref SummaryProvider 
     - (custom SummaryProvider für packages, konvertiert in Hash Map)
 ##### ChatGPT
-- Model zu GPT-4 geändert
 - Duration auf 600 Sekunden geändert 😡
 
 ### XML

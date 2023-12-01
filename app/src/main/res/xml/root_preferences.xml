@@ -23,6 +23,7 @@
                 app:dialogTitle="@string/pref_model_title"
                 app:entries="@array/model_entries"
                 app:entryValues="@array/model_values"
+                app:defaultValue="gpt-4"
                 app:useSimpleSummaryProvider="true">
             </ListPreference>
         </PreferenceCategory>
