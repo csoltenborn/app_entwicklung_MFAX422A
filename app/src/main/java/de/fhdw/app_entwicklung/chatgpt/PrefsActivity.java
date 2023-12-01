@@ -33,7 +33,6 @@ public class PrefsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         newBase.getResources().getConfiguration().setLocale(Locale.getDefault());

@@ -1,6 +1,5 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--sprachen und lautreden bei den settings eingebaut-->
 <PreferenceCategory app:title="@string/language">
     <ListPreference
         app:defaultValue="en"
@@ -25,7 +24,6 @@
             app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
 
-        <!-- Chat versionen in den einstellung auswählen lassen Standart ist GPT 3.5-->
         <ListPreference
             android:defaultValue="GPT 3.5"
             android:entries="@array/model_type_entries"
