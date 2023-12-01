@@ -61,13 +61,13 @@ Standartgemäß ist ChatGpt4. Die Buttons haben ein Unicode als inhalt bekommen 
   -Ein PreferenceScreen wurde erstellt, um Benutzern die Auswahl von Sprache, TTS und ChatGpt-Version zu ermöglichen.
 
 
-# Probleme/Lessons learned: Gab es Features/Details, die Sie nicht umsetzen konnten? Welche Probleme hätten Sie vermeiden können? Was würden Sie anders machen, wenn Sie noch mal neu beginnen würden?
+# Probleme/Lessons learned:
 
 Bei der Umsetzung meiner Erweiterungen stellte ich fest, dass ich weniger erreichen konnte als ursprünglich erhofft. Ich habe mir zu weniger Zeit für die Fehlersuche eingeplant hatte, 
 und diese Suche sich als zeitaufwendiger herausstellte als erwartet. Ich habe dennnoch versucht so viele erweiterung wie möglich zu schreiben. Um die Benutzerfreundlichkeit zu verbessern
 Es war jedoch klar, dass eine gründlichere Planung und Zeitallokation für die Fehlerbehebung in Zukunft notwendig sein wird, um ein reibungsloses Implementieren von Funktionen zu gewährleisten.
  
-# Fazit: Konnten Sie alles wie geplant umsetzen? War der zeitliche Aufwand so wie erwartet? 
+# Fazit:
 
 Wie bereits bei Probleme/Lessone learned erwähnt. Habe ich viel zu viel Zeit verloren um Fehler zu beheben und konnte nicht so viel erweiterung implemntieren wie gehoft. 
 Da man an manchen fehlern mehrere stunden dran gessessen hat. Diese Zeit habe ich mir nicht eingeplant. Denn noch habe ich es geschaft gute Erweiterung für die App zu schreiben. 
