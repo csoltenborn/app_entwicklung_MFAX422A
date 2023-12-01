@@ -19,6 +19,10 @@ public class PrefsFacade {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("read_out_loud", true);
     }
 
+    public String getAppPassword() {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("app_password", "1234");
+    }
+
     public String getApiToken() {
         return PreferenceManager.getDefaultSharedPreferences(context).getString("api_token", "");
     }
