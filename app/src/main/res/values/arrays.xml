@@ -1,0 +1,41 @@
+<resources>
+    <!-- Languages -->
+    <string-array name="language_entries">
+        <item>German</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>de</item>
+        <item>en</item>
+    </string-array>
+
+    <!-- Speaking styles -->
+    <string-array name="speaking_style_entries">
+        <item>Neutral</item>
+        <item>Dog</item>
+        <item>Donald Trump</item>
+        <item>William Shakespeare</item>
+        <item>Custom</item>
+    </string-array>
+
+    <string-array name="speaking_style_values">
+        <item>neutral</item>
+        <item>dog</item>
+        <item>trump</item>
+        <item>shakespeare</item>
+        <item>custom</item>
+    </string-array>
+
+    <!-- Model types -->
+    <string-array name="model_type_entries">
+        <item>GPT 3.5 (4K input size)</item>
+        <item>GPT 3.5 (16K input size)</item>
+    </string-array>
+
+    <string-array name="model_type_values">
+        <item>gpt-3.5-turbo</item>
+        <item>gpt-3.5-turbo-16k</item>
+    </string-array>
+
+</resources>

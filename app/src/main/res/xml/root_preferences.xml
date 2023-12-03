@@ -1,0 +1,50 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/app_behavior">
+
+        <ListPreference
+            app:defaultValue="en"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            app:title="@string/language"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="neutral"
+            android:entries="@array/speaking_style_entries"
+            android:entryValues="@array/speaking_style_values"
+            android:key="speaking_style"
+            android:title="@string/style_of_speaking"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="custom_speaking_style"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/custom_style_of_speaking"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="read_out_loud"
+            android:title="@string/read_chatgpt_s_answer_out_loud" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/api_configuration">
+
+        <EditTextPreference
+            app:defaultValue="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"
+            app:key="api_token"
+            app:title="@string/api_token"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="gpt-3.5-turbo"
+            android:entries="@array/model_type_entries"
+            android:entryValues="@array/model_type_values"
+            android:key="model_type"
+            android:title="@string/openai_model"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

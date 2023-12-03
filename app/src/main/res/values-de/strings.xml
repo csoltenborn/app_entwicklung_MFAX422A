@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ask">Fragen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="requests">Anfragen</string>
+    <string name="reset">Reset</string>
+    <string name="app_behavior">App-Verhalten</string>
+    <string name="language">Sprache</string>
+    <string name="style_of_speaking">Sprachstil</string>
+    <string name="custom_style_of_speaking">Eigener Sprachstil</string>
+    <string name="read_chatgpt_s_answer_out_loud">ChatGPT-Antworten vorlesen</string>
+    <string name="api_configuration">API-Konfiguration</string>
+    <string name="api_token">API-Token</string>
+    <string name="openai_model">OpenAI-Modell</string>
+</resources>

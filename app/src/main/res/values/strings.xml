@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">ChatGpt</string>
+    <string name="app_name" translatable="false">ChatGpt</string>
+    <string name="ask">Ask</string>
+    <string name="settings">Settings</string>
+    <string name="requests">Requests</string>
+    <string name="reset">Reset</string>
+    <string name="app_behavior">App behavior</string>
+    <string name="language">Language</string>
+    <string name="style_of_speaking">Style of speaking</string>
+    <string name="custom_style_of_speaking">Custom style of speaking</string>
+    <string name="read_chatgpt_s_answer_out_loud">Read ChatGpt\'s answer out loud</string>
+    <string name="api_configuration">API configuration</string>
+    <string name="api_token">API token</string>
+    <string name="openai_model">OpenAI model</string>
 </resources>
